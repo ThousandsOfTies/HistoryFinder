@@ -24,7 +24,7 @@ import NodeDetailPanel from './components/panels/NodeDetailPanel';
 import DictPanel from './components/panels/DictPanel';
 
 function App() {
-  const [scenario, setScenario] = useState('ancient');
+  const [scenario, setScenario] = useState('medieval_modern');
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [mainRfInstance, setMainRfInstance] = useState(null);
