@@ -1,0 +1,346 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #111827;
+  /* Dark mode background */
+  color: #f3f4f6;
+}
+
+#root {
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header {
+  padding: 1rem 2rem;
+  background-color: #1f2937;
+  border-bottom: 1px solid #374151;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  min-height: 48px;
+}
+
+/* Breadcrumbs Styling */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  font-size: 1.1rem;
+  color: #fbbf24;
+}
+
+.breadcrumb-item {
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, text-shadow 0.2s;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.breadcrumb-item:hover {
+  color: #fcd34d;
+  background-color: #374151;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: #6b7280;
+  font-weight: bold;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  background-color: #111827;
+  scroll-behavior: smooth;
+}
+
+.chart-panel {
+  flex-shrink: 0;
+  width: 100vw;
+  /* 初期状態は全画面幅 */
+  position: relative;
+  transition: width 0.3s ease;
+}
+
+.chart-panel.has-panels {
+  width: 50vw;
+  /* パネルが開いたら画面の半分に縮む */
+}
+
+.panel {
+  width: 50vw;
+  /* パネルは常に画面の半分の幅 */
+  flex-shrink: 0;
+  background-color: #1f2937;
+  border-left: 1px solid #374151;
+  overflow-y: auto;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.panel-content {
+  padding: 2rem;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: #f3f4f6;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  word-break: break-word;
+  padding-right: 1rem;
+}
+
+.panel-close-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.panel-close-btn:hover {
+  color: #fbbf24;
+  transform: scale(1.1);
+}
+
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, #fbbf24, transparent);
+  margin: 1rem 0;
+}
+
+.details {
+  line-height: 1.6;
+  color: #d1d5db;
+  font-size: 1.05rem;
+}
+
+.panel-content {
+  padding: 2rem;
+}
+
+.keyword-link {
+  color: #60a5fa;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+}
+
+.keyword-link:hover {
+  color: #93c5fd;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #374151;
+  color: #fbbf24;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
+/* Override React Flow defaults for Dark Mode */
+.react-flow__node {
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.react-flow__node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.react-flow__node.selected {
+  outline: 3px solid #fbbf24;
+  outline-offset: 4px;
+}
+
+.react-flow__attribution {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.react-flow__edge-path {
+  stroke-width: 3px !important;
+}
+
+.react-flow__edge-textbg {
+  fill: #111827;
+  /* 背景と同化させる */
+  fill-opacity: 0.8;
+}
+
+.react-flow__edge-text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: #fbbf24;
+}
+
+/* Custom Logic Node Styling */
+.logic-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1f2937;
+  border: 3px solid #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.logic-node:hover {
+  transform: scale(1.1);
+}
+
+.logic-node.and {
+  border-color: #3b82f6;
+  /* 青色 (AND) */
+  color: #3b82f6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+.logic-node.or {
+  border-color: #10b981;
+  /* 緑色 (OR) */
+  color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+
+.logic-symbol {
+  transform: translateY(-2px);
+}
+
+.logic-handle {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: #1f2937 !important;
+  border: 2px solid currentcolor !important;
+}
+
+/* AI Image Styles */
+.panel-image-container {
+  width: 100%;
+  margin: 1.5rem 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-image {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  /* アスペクト比を維持しつつ、コンテナ内に完全に収める */
+  display: block;
+}
+
+/* History Node (Custom Node) */
+.history-node {
+  min-width: 250px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+.history-node:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.5);
+  filter: brightness(1.1);
+}
+
+.history-node.selected {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+.history-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  /* 画像の透過部分に後ろの色が透けないように暗めの背景色を敷く */
+  background-color: #111827;
+}
+
+.history-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* アイコンが削れすぎないようにズーム倍率を 1.6 から 1.35 へ緩和 */
+  transform: scale(1.35);
+}
+
+.history-label {
+  flex-grow: 1;
+  text-align: center;
+  line-height: 1.3;
+}
