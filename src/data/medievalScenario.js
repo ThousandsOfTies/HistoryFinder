@@ -119,6 +119,97 @@ export const macroNodes = [
             details: 'ルネサンスの「観察に基づく合理精神」と、大航海時代がもたらした「未知の事実の発見」が結合し、[[地動説]]や万有引力などの近代科学が誕生した。'
         },
         style: { background: '#b91c1c', color: '#fff', border: '2px solid #ef4444', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+
+    // --- 宗教改革への分岐 ---
+    {
+        id: 'MACRO-Printing',
+        type: 'default',
+        data: {
+            label: '活版印刷術の発明',
+            type: 'root_cause',
+            details: '情報の複製コストが劇的に下がり、聖書や新しい思想が急速に民衆へ普及する基盤ができた。'
+        },
+        style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+    {
+        id: 'LOGIC-AND-REFORMATION',
+        type: 'logic',
+        data: { operator: 'AND', symbol: '＊' },
+    },
+    {
+        id: 'MACRO-Reformation',
+        type: 'default',
+        data: {
+            label: '宗教改革',
+            type: 'event',
+            details: 'ルネサンスの個人主義と、[[活版印刷]]による聖書の普及が結びつき、カトリック教会の絶対的権威が崩壊した。'
+        },
+        style: { background: '#4f46e5', color: '#fff', border: '2px solid #6366f1', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+
+    // --- 産業革命の要因と発生 ---
+    {
+        id: 'MACRO-Capital',
+        type: 'default',
+        data: {
+            label: '重商主義と資本の蓄積',
+            type: 'context',
+            details: '大航海時代以降の世界商業ネットワークにより、ヨーロッパに莫大な富（資本）が蓄積された。'
+        },
+        style: { background: '#0f766e', color: '#fff', border: '1px dashed #14b8a6', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+    {
+        id: 'LOGIC-AND-INDUSTRIAL',
+        type: 'logic',
+        data: { operator: 'AND', symbol: '＊' },
+    },
+    {
+        id: 'MACRO-IndustrialRevolution',
+        type: 'default',
+        data: {
+            label: '産業革命',
+            type: 'macro_event',
+            details: '科学革命による「技術的基盤」と、「蓄積された資本」が結合し、蒸気機関と機械制大工業による爆発的な生産力向上が起きた。'
+        },
+        style: { background: '#be123c', color: '#fff', border: '2px solid #f43f5e', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+
+    // --- 市民革命の要因と発生 ---
+    {
+        id: 'MACRO-Enlightenment',
+        type: 'default',
+        data: {
+            label: '啓蒙思想の普及',
+            type: 'context',
+            details: '科学革命における合理主義が社会や政治にも適用され、王権神授説を否定し、基本的人権論が唱えられた。'
+        },
+        style: { background: '#a21caf', color: '#fff', border: '1px dashed #c026d3', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+    {
+        id: 'MACRO-Bourgeoisie',
+        type: 'default',
+        data: {
+            label: '市民階級（ブルジョワジー）の成長',
+            type: 'context',
+            details: '世界商業と産業の発展によって経済力をつけた都市の市民階級が、政治的権利を求めるようになった。'
+        },
+        style: { background: '#c2410c', color: '#fff', border: '1px dashed #ea580c', borderRadius: '4px', width: 250, padding: '10px' }
+    },
+    {
+        id: 'LOGIC-AND-CIVIL',
+        type: 'logic',
+        data: { operator: 'AND', symbol: '＊' },
+    },
+    {
+        id: 'MACRO-CivilRevolution',
+        type: 'default',
+        data: {
+            label: '市民革命と国民国家の誕生',
+            type: 'macro_event',
+            details: '経済力を持った[[ブルジョワジー]]と新しい[[啓蒙思想]]が結びつき、絶対王政を打倒する市民革命（フランス革命など）が勃発した。'
+        },
+        style: { background: '#000000', color: '#fff', border: '2px solid #6b7280', borderRadius: '4px', width: 250, padding: '10px' }
     }
 ];
 
@@ -139,7 +230,25 @@ const edges = [
     // 科学革命への合流
     { id: 'em-7', source: 'MACRO-Renaissance', target: 'LOGIC-AND-SCIENCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
     { id: 'em-8', source: 'MACRO-AgeOfDiscovery', target: 'LOGIC-AND-SCIENCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-9', source: 'LOGIC-AND-SCIENCE', target: 'MACRO-ScientificRevolution', type: 'smoothstep', style: { stroke: '#b91c1c', strokeWidth: 4 } }
+    { id: 'em-9', source: 'LOGIC-AND-SCIENCE', target: 'MACRO-ScientificRevolution', type: 'smoothstep', style: { stroke: '#b91c1c', strokeWidth: 4 } },
+
+    // 宗教改革への合流 (ルネサンス AND 活版印刷)
+    { id: 'em-10', source: 'MACRO-Renaissance', target: 'LOGIC-AND-REFORMATION', type: 'smoothstep', style: { stroke: '#6366f1', strokeWidth: 2 } },
+    { id: 'em-11', source: 'MACRO-Printing', target: 'LOGIC-AND-REFORMATION', type: 'smoothstep', style: { stroke: '#6366f1', strokeWidth: 2 } },
+    { id: 'em-12', source: 'LOGIC-AND-REFORMATION', target: 'MACRO-Reformation', type: 'smoothstep', style: { stroke: '#4f46e5', strokeWidth: 3 } },
+
+    // 産業革命への合流 (大航海からの資本蓄積 AND 科学技術)
+    { id: 'em-13', source: 'MACRO-AgeOfDiscovery', target: 'MACRO-Capital', type: 'smoothstep', style: { stroke: '#14b8a6', strokeWidth: 2 } },
+    { id: 'em-14', source: 'MACRO-Capital', target: 'LOGIC-AND-INDUSTRIAL', type: 'smoothstep', style: { stroke: '#f43f5e', strokeWidth: 2 } },
+    { id: 'em-15', source: 'MACRO-ScientificRevolution', target: 'LOGIC-AND-INDUSTRIAL', type: 'smoothstep', style: { stroke: '#f43f5e', strokeWidth: 2 } },
+    { id: 'em-16', source: 'LOGIC-AND-INDUSTRIAL', target: 'MACRO-IndustrialRevolution', type: 'smoothstep', style: { stroke: '#be123c', strokeWidth: 4 } },
+
+    // 市民革命への合流 (科学革命からの啓蒙思想 AND 資本蓄積からの市民階級台頭)
+    { id: 'em-17', source: 'MACRO-ScientificRevolution', target: 'MACRO-Enlightenment', type: 'smoothstep', style: { stroke: '#c026d3', strokeWidth: 2 } },
+    { id: 'em-18', source: 'MACRO-Capital', target: 'MACRO-Bourgeoisie', type: 'smoothstep', style: { stroke: '#ea580c', strokeWidth: 2 } },
+    { id: 'em-19', source: 'MACRO-Enlightenment', target: 'LOGIC-AND-CIVIL', type: 'smoothstep', style: { stroke: '#6b7280', strokeWidth: 2 } },
+    { id: 'em-20', source: 'MACRO-Bourgeoisie', target: 'LOGIC-AND-CIVIL', type: 'smoothstep', style: { stroke: '#6b7280', strokeWidth: 2 } },
+    { id: 'em-21', source: 'LOGIC-AND-CIVIL', target: 'MACRO-CivilRevolution', type: 'smoothstep', style: { stroke: '#000000', strokeWidth: 4 } }
 ];
 
 // 全エッジに矢印マーカーを付与してエクスポート
