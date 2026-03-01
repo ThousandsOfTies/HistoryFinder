@@ -10,19 +10,24 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
  * また、非ロジックノードには 'history' タイプとアイコン情報を付与する。
  */
 export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
-    // ranksep(縦の間隔)は短く保ちつつ、nodesep(横の隙間)を大きく設定して重なりを抑止
-    dagreGraph.setGraph({ rankdir: direction, ranksep: 40, nodesep: 120 });
+    // 縦のノード実体サイズが大きいため ranksep を広げ、横の重なりも抑止
+    dagreGraph.setGraph({ rankdir: direction, ranksep: 60, nodesep: 140 });
 
     nodes.forEach((node) => {
-        // logicノードは小さめとして扱う
+        // logicノードは小さめとして扱う。historyノードは文字やアイコンを考慮して実際の高さ(約100~120)に近い値を設定し、逆行線を防ぐ。
         const isLogic = node.type === 'logic';
         const width = isLogic ? 50 : (node.style?.width || nodeWidth);
-        const height = isLogic ? 50 : nodeHeight;
+        const height = isLogic ? 50 : 120; // 以前の80より余裕を持たせる
         dagreGraph.setNode(node.id, { width, height });
     });
 
     edges.forEach((edge) => {
-        dagreGraph.setEdge(edge.source, edge.target);
+        // 横方向への干渉エッジ（animated: true）は、Dagreの横並び計算でレーンを歪ませないように weight: 0 を設定
+        if (edge.animated) {
+            dagreGraph.setEdge(edge.source, edge.target, { weight: 0, minlen: 1 });
+        } else {
+            dagreGraph.setEdge(edge.source, edge.target, { weight: 1, minlen: 1 });
+        }
     });
 
     dagre.layout(dagreGraph);

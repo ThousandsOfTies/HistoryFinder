@@ -4,6 +4,7 @@ import 'reactflow/dist/style.css';
 import './index.css';
 
 // データ
+import { grandNodes, grandEdges } from './data/grandMap';
 import { initialNodes, initialEdges } from './data/ancientScenario';
 import { macroNodes, macroEdges } from './data/medievalScenario';
 
@@ -24,7 +25,8 @@ import NodeDetailPanel from './components/panels/NodeDetailPanel';
 import DictPanel from './components/panels/DictPanel';
 
 function App() {
-  const [scenario, setScenario] = useState('medieval_modern');
+  // 初期画面を「grand（全体マップ）」に設定
+  const [scenario, setScenario] = useState('grand');
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [mainRfInstance, setMainRfInstance] = useState(null);
@@ -45,7 +47,11 @@ function App() {
   useEffect(() => {
     let sourceNodes = [];
     let sourceEdges = [];
-    if (scenario === 'ancient') {
+    // マップデータの切り替え
+    if (scenario === 'grand') {
+      sourceNodes = grandNodes;
+      sourceEdges = grandEdges;
+    } else if (scenario === 'ancient') {
       sourceNodes = initialNodes;
       sourceEdges = initialEdges;
     } else if (scenario === 'medieval_modern') {
