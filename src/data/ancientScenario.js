@@ -207,36 +207,36 @@ export const initialNodes = [
 
 const edges = [
     // --- 根本原因（気候変動）のOR結合 ---
-    { id: 'e-or-climate-1', source: 'RC-SolarMinimum', target: 'LOGIC-OR-CLIMATE', type: 'smoothstep', style: { stroke: '#3b82f6', strokeWidth: 2 } },
-    { id: 'e-or-climate-2', source: 'RC-Volcano', target: 'LOGIC-OR-CLIMATE', type: 'smoothstep', style: { stroke: '#3b82f6', strokeWidth: 2 } },
-    { id: 'e-or-climate-out', source: 'LOGIC-OR-CLIMATE', target: 'RC-Climate', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e-or-climate-1', source: 'RC-SolarMinimum', target: 'LOGIC-OR-CLIMATE', type: 'straight', style: { stroke: '#3b82f6', strokeWidth: 2 } },
+    { id: 'e-or-climate-2', source: 'RC-Volcano', target: 'LOGIC-OR-CLIMATE', type: 'straight', style: { stroke: '#3b82f6', strokeWidth: 2 } },
+    { id: 'e-or-climate-out', source: 'LOGIC-OR-CLIMATE', target: 'RC-Climate', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
 
     // 寒冷化 -> 生存危機
-    { id: 'e1', source: 'RC-Climate', target: 'EV-SurvivalCrisis', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e1', source: 'RC-Climate', target: 'EV-SurvivalCrisis', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
 
     // 東方ルートへの試み
-    { id: 'e2', source: 'EV-SurvivalCrisis', target: 'EV-AttemptEast', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
-    { id: 'e-and-east-1', source: 'EV-AttemptEast', target: 'LOGIC-AND-EAST', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
-    { id: 'e-and-east-2', source: 'CTX-ChinaDefense', target: 'LOGIC-AND-EAST', type: 'smoothstep', style: { stroke: '#8b5cf6', strokeWidth: 2 } },
-    { id: 'e-and-east-out', source: 'LOGIC-AND-EAST', target: 'RES-BlockedEast', type: 'smoothstep', style: { stroke: '#ef4444', strokeWidth: 2 } },
+    { id: 'e2', source: 'EV-SurvivalCrisis', target: 'EV-AttemptEast', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e-and-east-1', source: 'EV-AttemptEast', target: 'LOGIC-AND-EAST', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e-and-east-2', source: 'CTX-ChinaDefense', target: 'LOGIC-AND-EAST', type: 'straight', style: { stroke: '#8b5cf6', strokeWidth: 2 } },
+    { id: 'e-and-east-out', source: 'LOGIC-AND-EAST', target: 'RES-BlockedEast', type: 'straight', style: { stroke: '#ef4444', strokeWidth: 2 } },
 
     // 西進への消去法プロセス (SurvivalCrisis AND BlockedEast -> HunMove)
-    { id: 'e-and-west-1', source: 'EV-SurvivalCrisis', target: 'LOGIC-AND-WEST', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
-    { id: 'e-and-west-2', source: 'RES-BlockedEast', target: 'LOGIC-AND-WEST', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2, strokeDasharray: '5,5' } },
-    { id: 'e-and-west-out', source: 'LOGIC-AND-WEST', target: 'EV-HunMove', type: 'smoothstep', style: { stroke: '#eab308', strokeWidth: 3 } },
+    { id: 'e-and-west-1', source: 'EV-SurvivalCrisis', target: 'LOGIC-AND-WEST', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e-and-west-2', source: 'RES-BlockedEast', target: 'LOGIC-AND-WEST', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2, strokeDasharray: '5,5' } },
+    { id: 'e-and-west-out', source: 'LOGIC-AND-WEST', target: 'EV-HunMove', type: 'straight', style: { stroke: '#eab308', strokeWidth: 3 } },
 
     // その後のゲルマン大移動ルート
-    { id: 'e3', source: 'EV-HunMove', target: 'UDE-GermanPressure', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
-    { id: 'e4', source: 'UDE-GermanPressure', target: 'EV-GermanMove', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e3', source: 'EV-HunMove', target: 'UDE-GermanPressure', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'e4', source: 'UDE-GermanPressure', target: 'EV-GermanMove', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
 
     // ローマ政策のAND結合
-    { id: 'e-and1-in1', source: 'EV-GermanMove', target: 'LOGIC-AND1', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'e-and1-in2', source: 'CTX-RomeWeakness', target: 'LOGIC-AND1', type: 'smoothstep', style: { stroke: '#8b5cf6', strokeWidth: 2 } },
-    { id: 'e-and1-out', source: 'LOGIC-AND1', target: 'INJ-RomePolicy', type: 'smoothstep', style: { stroke: '#eab308', strokeWidth: 3 } },
+    { id: 'e-and1-in1', source: 'EV-GermanMove', target: 'LOGIC-AND1', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'e-and1-in2', source: 'CTX-RomeWeakness', target: 'LOGIC-AND1', type: 'straight', style: { stroke: '#8b5cf6', strokeWidth: 2 } },
+    { id: 'e-and1-out', source: 'LOGIC-AND1', target: 'INJ-RomePolicy', type: 'straight', style: { stroke: '#eab308', strokeWidth: 3 } },
 
     // 滅亡へのプロセス
-    { id: 'e6', source: 'INJ-RomePolicy', target: 'NBR-MilitaryTakeover', type: 'smoothstep', style: { stroke: '#ef4444', strokeWidth: 2 } },
-    { id: 'e7', source: 'NBR-MilitaryTakeover', target: 'RES-FallOfRome', type: 'smoothstep', style: { stroke: '#ef4444', strokeWidth: 2 } }
+    { id: 'e6', source: 'INJ-RomePolicy', target: 'NBR-MilitaryTakeover', type: 'straight', style: { stroke: '#ef4444', strokeWidth: 2 } },
+    { id: 'e7', source: 'NBR-MilitaryTakeover', target: 'RES-FallOfRome', type: 'straight', style: { stroke: '#ef4444', strokeWidth: 2 } }
 ];
 
 // 全エッジに矢印マーカーを付与してエクスポート

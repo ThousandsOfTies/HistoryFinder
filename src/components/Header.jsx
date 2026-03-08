@@ -1,14 +1,32 @@
 import React from 'react';
 
-// アプリケーションヘッダー（パンくずリスト + シナリオセレクタ）
-const Header = ({ scenario, onScenarioChange, panels, onBreadcrumbClick }) => {
+// アプリケーションヘッダー（モード切替 + パンくずリスト）
+const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
     return (
         <header className="app-header">
+            {/* モード切替タブ */}
+            <div className="mode-tabs">
+                <button
+                    className={`mode-tab ${mode === 'classic' ? 'active' : ''}`}
+                    onClick={() => onModeChange('classic')}
+                >
+                    📖 クラシック
+                </button>
+                <button
+                    className={`mode-tab ${mode === 'news' ? 'active' : ''}`}
+                    onClick={() => onModeChange('news')}
+                >
+                    📰 ニュース
+                </button>
+            </div>
+
+            <span className="header-divider">|</span>
+
+            {/* パンくずリスト */}
             <div className="breadcrumbs">
                 <div className="breadcrumb-item home" onClick={() => onBreadcrumbClick(-1)}>
-                    🌎 歴史因果関係（概要）
+                    {mode === 'classic' ? '🌎 歴史因果関係（概要）' : '📰 今日のニュース'}
                 </div>
-
 
                 {panels.map((panel, index) => {
                     let label = '';
@@ -18,6 +36,8 @@ const Header = ({ scenario, onScenarioChange, panels, onBreadcrumbClick }) => {
                         label = panel.keyword;
                     } else if (panel.type === 'graph') {
                         label = panel.label + ' (詳細)';
+                    } else if (panel.type === 'causal') {
+                        label = panel.loading ? '分析中...' : (panel.title || '因果関係');
                     }
 
                     return (

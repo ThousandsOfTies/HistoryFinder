@@ -15,7 +15,8 @@ const NodeDetailPanel = ({ panel, index, onClose, onKeywordClick }) => {
                 <div className="divider"></div>
                 <p className="details">{renderTextWithLinks(data.details, index, onKeywordClick)}</p>
 
-                <div className="node-stats">
+
+                <div className="node-stats" style={{ marginTop: '16px' }}>
                     <span className="badge">ID: {panel.data.id}</span>
                     <span className="badge" style={{ marginLeft: '8px', background: '#374151' }}>
                         Type: {data.type || panel.data.type}

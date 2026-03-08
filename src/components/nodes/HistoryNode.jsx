@@ -9,7 +9,11 @@ const HistoryNode = ({ data, selected }) => {
             <div className="history-icon-wrapper">
                 <img src={data.iconUrl} alt="node-icon" className="history-icon-img" />
             </div>
-            <div className="history-label">{data.label}</div>
+            <div className="history-label">{
+                data.label.split('\n').map((line, i, arr) => (
+                    <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
+                ))
+            }</div>
             <Handle type="source" position={Position.Bottom} className="logic-handle" />
         </div>
     );

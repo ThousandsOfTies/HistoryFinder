@@ -5,8 +5,6 @@ import './index.css';
 
 // データ
 import { grandNodes, grandEdges } from './data/grandMap';
-import { initialNodes, initialEdges } from './data/ancientScenario';
-import { macroNodes, macroEdges } from './data/medievalScenario';
 
 // ユーティリティ
 import { getLayoutedElements } from './utils/layoutEngine';
@@ -23,10 +21,14 @@ import Header from './components/Header';
 import SubGraphPanel from './components/panels/SubGraphPanel';
 import NodeDetailPanel from './components/panels/NodeDetailPanel';
 import DictPanel from './components/panels/DictPanel';
+import NewsFeedPanel from './components/panels/NewsFeedPanel';
+import CausalChainPanel from './components/panels/CausalChainPanel';
 
 function App() {
-  // 初期画面を「grand（全体マップ）」に設定
-  const [scenario, setScenario] = useState('grand');
+  // アプリモード: 'classic'（従来の歴史マップ） or 'news'（ニュース駆動）
+  const [mode, setMode] = useState('classic');
+
+  // クラシックモード用
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [mainRfInstance, setMainRfInstance] = useState(null);
@@ -41,29 +43,22 @@ function App() {
     handleGraphNodeClick,
     handleGraphPaneClick,
     handleKeywordClick,
+    handleNewsClick,
   } = usePanelManager();
 
-  // シナリオが変更されたらデータを読み込み直して自動レイアウト
+  // モードが変更されたらパネルをリセット
   useEffect(() => {
-    let sourceNodes = [];
-    let sourceEdges = [];
-    // マップデータの切り替え
-    if (scenario === 'grand') {
-      sourceNodes = grandNodes;
-      sourceEdges = grandEdges;
-    } else if (scenario === 'ancient') {
-      sourceNodes = initialNodes;
-      sourceEdges = initialEdges;
-    } else if (scenario === 'medieval_modern') {
-      sourceNodes = macroNodes;
-      sourceEdges = macroEdges;
-    }
+    closeAllPanels();
+  }, [mode, closeAllPanels]);
 
-    const { layoutedNodes, layoutedEdges } = getLayoutedElements(sourceNodes, sourceEdges);
+  // グランドマップ読み込み（クラシックモード用）
+  useEffect(() => {
+    if (mode !== 'classic') return;
+    const { layoutedNodes, layoutedEdges } = getLayoutedElements(grandNodes, grandEdges);
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
-    closeAllPanels(); // マップが切り替わったらパネルを閉じる
-  }, [scenario, closeAllPanels]);
+    closeAllPanels();
+  }, [mode, closeAllPanels]);
 
   // パネルの描画
   const renderPanel = (panel, index) => {
@@ -98,6 +93,17 @@ function App() {
           onKeywordClick={handleKeywordClick}
         />
       );
+    } else if (panel.type === 'causal') {
+      return (
+        <CausalChainPanel
+          key={`causal-${panel.title}-${index}`}
+          panel={panel}
+          index={index}
+          handleClosePanel={handleClosePanel}
+          handleGraphNodeClick={handleGraphNodeClick}
+          handleGraphPaneClick={handleGraphPaneClick}
+        />
+      );
     }
     return null;
   };
@@ -105,35 +111,43 @@ function App() {
   return (
     <div className="app-container">
       <Header
-        scenario={scenario}
-        onScenarioChange={setScenario}
+        mode={mode}
+        onModeChange={setMode}
         panels={panels}
         onBreadcrumbClick={handleBreadcrumbClick}
       />
 
       <div className="main-content" ref={panelsContainerRef}>
-        <div
-          className={`chart-panel ${panels.length > 0 ? 'has-panels' : ''}`}
-          onWheelCapture={(e) => handleWheelZoom(e, mainRfInstance)}
-        >
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            onInit={setMainRfInstance}
-            onNodesChange={(changes) => setNodes((nds) => applyNodeChanges(changes, nds))}
-            onEdgesChange={(changes) => setEdges((eds) => applyEdgeChanges(changes, eds))}
-            onNodeClick={(e, node) => handleGraphNodeClick(e, node, -1)}
-            onPaneClick={() => handleGraphPaneClick(-1)}
-            fitView
-            minZoom={minZoomLevel}
-            maxZoom={maxZoomLevel}
-            attributionPosition="bottom-left"
+        {mode === 'classic' ? (
+          /* クラシックモード: 従来のグランドマップ */
+          <div
+            className={`chart-panel ${panels.length > 0 ? 'has-panels' : ''}`}
+            onWheelCapture={(e) => handleWheelZoom(e, mainRfInstance)}
           >
-            <Background color="#ccc" gap={16} />
-            <Controls />
-          </ReactFlow>
-        </div>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              onInit={setMainRfInstance}
+              onNodesChange={(changes) => setNodes((nds) => applyNodeChanges(changes, nds))}
+              onEdgesChange={(changes) => setEdges((eds) => applyEdgeChanges(changes, eds))}
+              onNodeClick={(e, node) => handleGraphNodeClick(e, node, -1)}
+              onPaneClick={() => handleGraphPaneClick(-1)}
+              fitView
+              minZoom={minZoomLevel}
+              maxZoom={maxZoomLevel}
+              attributionPosition="bottom-left"
+            >
+              <Background color="#ccc" gap={16} />
+              <Controls />
+            </ReactFlow>
+          </div>
+        ) : (
+          /* ニュースモード: ニュース一覧パネル */
+          <div className={`news-panel-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>
+            <NewsFeedPanel onNewsClick={handleNewsClick} />
+          </div>
+        )}
         {panels.map((panel, index) => renderPanel(panel, index))}
       </div>
     </div>

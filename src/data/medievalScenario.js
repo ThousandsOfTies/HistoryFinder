@@ -170,6 +170,7 @@ export const macroNodes = [
         data: {
             label: '産業革命',
             type: 'macro_event',
+            iconUrl: '/icons/industrial_revolution.png',
             details: '科学革命による「技術的基盤」と、「蓄積された資本」が結合し、蒸気機関と機械制大工業による爆発的な生産力向上が起きた。'
         },
         style: { background: '#be123c', color: '#fff', border: '2px solid #f43f5e', borderRadius: '4px', width: 250, padding: '10px' }
@@ -215,40 +216,40 @@ export const macroNodes = [
 
 const edges = [
     // 古代から中世へ
-    { id: 'em-0', source: 'MACRO-RomeFall', target: 'MACRO-MiddleAges', type: 'smoothstep', style: { stroke: '#9ca3af', strokeWidth: 2 } },
+    { id: 'em-0', source: 'MACRO-RomeFall', target: 'MACRO-MiddleAges', type: 'straight', style: { stroke: '#9ca3af', strokeWidth: 2 } },
 
     // ルネサンスへの合流
-    { id: 'em-1', source: 'MACRO-Crusades', target: 'LOGIC-AND-RENAISSANCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-2', source: 'MACRO-BlackDeath', target: 'LOGIC-AND-RENAISSANCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-3', source: 'LOGIC-AND-RENAISSANCE', target: 'MACRO-Renaissance', type: 'smoothstep', style: { stroke: '#059669', strokeWidth: 3 } },
+    { id: 'em-1', source: 'MACRO-Crusades', target: 'LOGIC-AND-RENAISSANCE', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-2', source: 'MACRO-BlackDeath', target: 'LOGIC-AND-RENAISSANCE', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-3', source: 'LOGIC-AND-RENAISSANCE', target: 'MACRO-Renaissance', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },
 
     // 大航海時代への合流
-    { id: 'em-4', source: 'MACRO-Ottoman', target: 'LOGIC-AND-DISCOVERY', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-5', source: 'MACRO-Navigation', target: 'LOGIC-AND-DISCOVERY', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-6', source: 'LOGIC-AND-DISCOVERY', target: 'MACRO-AgeOfDiscovery', type: 'smoothstep', style: { stroke: '#d97706', strokeWidth: 3 } },
+    { id: 'em-4', source: 'MACRO-Ottoman', target: 'LOGIC-AND-DISCOVERY', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-5', source: 'MACRO-Navigation', target: 'LOGIC-AND-DISCOVERY', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-6', source: 'LOGIC-AND-DISCOVERY', target: 'MACRO-AgeOfDiscovery', type: 'straight', style: { stroke: '#d97706', strokeWidth: 3 } },
 
     // 科学革命への合流
-    { id: 'em-7', source: 'MACRO-Renaissance', target: 'LOGIC-AND-SCIENCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-8', source: 'MACRO-AgeOfDiscovery', target: 'LOGIC-AND-SCIENCE', type: 'smoothstep', style: { stroke: '#10b981', strokeWidth: 2 } },
-    { id: 'em-9', source: 'LOGIC-AND-SCIENCE', target: 'MACRO-ScientificRevolution', type: 'smoothstep', style: { stroke: '#b91c1c', strokeWidth: 4 } },
+    { id: 'em-7', source: 'MACRO-Renaissance', target: 'LOGIC-AND-SCIENCE', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-8', source: 'MACRO-AgeOfDiscovery', target: 'LOGIC-AND-SCIENCE', type: 'straight', style: { stroke: '#10b981', strokeWidth: 2 } },
+    { id: 'em-9', source: 'LOGIC-AND-SCIENCE', target: 'MACRO-ScientificRevolution', type: 'straight', style: { stroke: '#b91c1c', strokeWidth: 4 } },
 
     // 宗教改革への合流 (ルネサンス AND 活版印刷)
-    { id: 'em-10', source: 'MACRO-Renaissance', target: 'LOGIC-AND-REFORMATION', type: 'smoothstep', style: { stroke: '#6366f1', strokeWidth: 2 } },
-    { id: 'em-11', source: 'MACRO-Printing', target: 'LOGIC-AND-REFORMATION', type: 'smoothstep', style: { stroke: '#6366f1', strokeWidth: 2 } },
-    { id: 'em-12', source: 'LOGIC-AND-REFORMATION', target: 'MACRO-Reformation', type: 'smoothstep', style: { stroke: '#4f46e5', strokeWidth: 3 } },
+    { id: 'em-10', source: 'MACRO-Renaissance', target: 'LOGIC-AND-REFORMATION', type: 'straight', style: { stroke: '#6366f1', strokeWidth: 2 } },
+    { id: 'em-11', source: 'MACRO-Printing', target: 'LOGIC-AND-REFORMATION', type: 'straight', style: { stroke: '#6366f1', strokeWidth: 2 } },
+    { id: 'em-12', source: 'LOGIC-AND-REFORMATION', target: 'MACRO-Reformation', type: 'straight', style: { stroke: '#4f46e5', strokeWidth: 3 } },
 
     // 産業革命への合流 (大航海からの資本蓄積 AND 科学技術)
-    { id: 'em-13', source: 'MACRO-AgeOfDiscovery', target: 'MACRO-Capital', type: 'smoothstep', style: { stroke: '#14b8a6', strokeWidth: 2 } },
-    { id: 'em-14', source: 'MACRO-Capital', target: 'LOGIC-AND-INDUSTRIAL', type: 'smoothstep', style: { stroke: '#f43f5e', strokeWidth: 2 } },
-    { id: 'em-15', source: 'MACRO-ScientificRevolution', target: 'LOGIC-AND-INDUSTRIAL', type: 'smoothstep', style: { stroke: '#f43f5e', strokeWidth: 2 } },
-    { id: 'em-16', source: 'LOGIC-AND-INDUSTRIAL', target: 'MACRO-IndustrialRevolution', type: 'smoothstep', style: { stroke: '#be123c', strokeWidth: 4 } },
+    { id: 'em-13', source: 'MACRO-AgeOfDiscovery', target: 'MACRO-Capital', type: 'straight', style: { stroke: '#14b8a6', strokeWidth: 2 } },
+    { id: 'em-14', source: 'MACRO-Capital', target: 'LOGIC-AND-INDUSTRIAL', type: 'straight', style: { stroke: '#f43f5e', strokeWidth: 2 } },
+    { id: 'em-15', source: 'MACRO-ScientificRevolution', target: 'LOGIC-AND-INDUSTRIAL', type: 'straight', style: { stroke: '#f43f5e', strokeWidth: 2 } },
+    { id: 'em-16', source: 'LOGIC-AND-INDUSTRIAL', target: 'MACRO-IndustrialRevolution', type: 'straight', style: { stroke: '#be123c', strokeWidth: 4 } },
 
     // 市民革命への合流 (科学革命からの啓蒙思想 AND 資本蓄積からの市民階級台頭)
-    { id: 'em-17', source: 'MACRO-ScientificRevolution', target: 'MACRO-Enlightenment', type: 'smoothstep', style: { stroke: '#c026d3', strokeWidth: 2 } },
-    { id: 'em-18', source: 'MACRO-Capital', target: 'MACRO-Bourgeoisie', type: 'smoothstep', style: { stroke: '#ea580c', strokeWidth: 2 } },
-    { id: 'em-19', source: 'MACRO-Enlightenment', target: 'LOGIC-AND-CIVIL', type: 'smoothstep', style: { stroke: '#6b7280', strokeWidth: 2 } },
-    { id: 'em-20', source: 'MACRO-Bourgeoisie', target: 'LOGIC-AND-CIVIL', type: 'smoothstep', style: { stroke: '#6b7280', strokeWidth: 2 } },
-    { id: 'em-21', source: 'LOGIC-AND-CIVIL', target: 'MACRO-CivilRevolution', type: 'smoothstep', style: { stroke: '#000000', strokeWidth: 4 } }
+    { id: 'em-17', source: 'MACRO-ScientificRevolution', target: 'MACRO-Enlightenment', type: 'straight', style: { stroke: '#c026d3', strokeWidth: 2 } },
+    { id: 'em-18', source: 'MACRO-Capital', target: 'MACRO-Bourgeoisie', type: 'straight', style: { stroke: '#ea580c', strokeWidth: 2 } },
+    { id: 'em-19', source: 'MACRO-Enlightenment', target: 'LOGIC-AND-CIVIL', type: 'straight', style: { stroke: '#6b7280', strokeWidth: 2 } },
+    { id: 'em-20', source: 'MACRO-Bourgeoisie', target: 'LOGIC-AND-CIVIL', type: 'straight', style: { stroke: '#6b7280', strokeWidth: 2 } },
+    { id: 'em-21', source: 'LOGIC-AND-CIVIL', target: 'MACRO-CivilRevolution', type: 'straight', style: { stroke: '#d1d5db', strokeWidth: 4 } }
 ];
 
 // 全エッジに矢印マーカーを付与してエクスポート

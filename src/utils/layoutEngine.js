@@ -1,23 +1,23 @@
 import dagre from 'dagre';
 import { nodeWidth, nodeHeight, iconMap } from '../constants/graphConfig';
 
-// Dagre グラフインスタンス（自動レイアウト計算用）
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-
 /**
  * ノードとエッジに対して Dagre による自動レイアウト（座標計算）を適用する。
  * また、非ロジックノードには 'history' タイプとアイコン情報を付与する。
  */
 export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
+    // 毎回新しいグラフインスタンスを作成して状態の蓄積を防ぐ
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+
     // 縦のノード実体サイズが大きいため ranksep を広げ、横の重なりも抑止
-    dagreGraph.setGraph({ rankdir: direction, ranksep: 60, nodesep: 140 });
+    dagreGraph.setGraph({ rankdir: direction, ranksep: 120, nodesep: 300 });
 
     nodes.forEach((node) => {
-        // logicノードは小さめとして扱う。historyノードは文字やアイコンを考慮して実際の高さ(約100~120)に近い値を設定し、逆行線を防ぐ。
+        // logicノードも計算上は通常ノードと同じ幅(width)として扱うことで、Dagreのアルゴリズムによって極端に右へずれるのを防ぎ、中央に配置させる。
         const isLogic = node.type === 'logic';
-        const width = isLogic ? 50 : (node.style?.width || nodeWidth);
-        const height = isLogic ? 50 : 120; // 以前の80より余裕を持たせる
+        const width = node.style?.width || nodeWidth;
+        const height = isLogic ? 50 : 120;
         dagreGraph.setNode(node.id, { width, height });
     });
 
@@ -35,16 +35,21 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
     const layoutedNodes = nodes.map((node) => {
         const nodeWithPosition = dagreGraph.node(node.id);
         const isLogic = node.type === 'logic';
-        const width = isLogic ? 50 : (node.style?.width || nodeWidth);
-        const height = isLogic ? 50 : nodeHeight;
 
-        // React Flow用に左上基準の座標に変換
+        const actualWidth = isLogic ? 50 : (node.style?.width || nodeWidth);
+        const actualHeight = isLogic ? 50 : nodeHeight;
+
+        // manualPosition フラグが設定されている場合は元の座標を使用
+        const position = node.data?.manualPosition
+            ? { x: node.position.x, y: node.position.y }
+            : {
+                x: nodeWithPosition.x - actualWidth / 2,
+                y: nodeWithPosition.y - actualHeight / 2,
+            };
+
         const processedNode = {
             ...node,
-            position: {
-                x: nodeWithPosition.x - width / 2,
-                y: nodeWithPosition.y - height / 2,
-            },
+            position,
         };
 
         if (!isLogic) {

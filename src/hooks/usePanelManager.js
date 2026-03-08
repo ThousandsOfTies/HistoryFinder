@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { getAiExplanation } from '../services/aiService';
+import { getAiExplanation, generateCausalChain } from '../services/aiService';
 
 /**
  * パネル管理ロジックを集約したカスタムフック。
@@ -105,6 +105,31 @@ export const usePanelManager = () => {
         });
     }, []);
 
+    // ニュース見出しから因果チェーンを生成する処理
+    const handleNewsClick = useCallback(async (headline, description) => {
+        // 既存パネルを全てクリアしてからロード中パネルを追加
+        setPanels([{ type: 'causal', loading: true, title: headline }]);
+
+        // AI因果チェーン生成
+        const result = await generateCausalChain(headline, description);
+
+        // パネルを更新
+        setPanels(prevPanels => {
+            return prevPanels.map((panel) => {
+                if (panel.type === 'causal' && panel.loading && panel.title === headline) {
+                    return {
+                        ...panel,
+                        loading: false,
+                        causalNodes: result.nodes,
+                        causalEdges: result.edges,
+                        title: result.title,
+                    };
+                }
+                return panel;
+            });
+        });
+    }, []);
+
     return {
         panels,
         panelsContainerRef,
@@ -114,5 +139,6 @@ export const usePanelManager = () => {
         handleGraphNodeClick,
         handleGraphPaneClick,
         handleKeywordClick,
+        handleNewsClick,
     };
 };

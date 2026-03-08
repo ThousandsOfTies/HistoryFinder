@@ -49,11 +49,9 @@ export const handleWheelZoom = (e, rfInstance) => {
             // 連続でホイールを回した際に、fitView が何十回も発火してアニメーションが
             // スタックしてしまうバグを防ぐため、300ms間隔でのみ発火を許可する
             if (now - lastFitViewTime > 300) {
-                // すでにFitされた倍率付近なら再アニメーションさせない
-                if (Math.abs(currentZoom - exactFitZoom) > 0.01) {
-                    lastFitViewTime = now;
-                    rfInstance.fitView({ padding: 0.1, duration: 300 });
-                }
+                lastFitViewTime = now;
+                // 最適Fit表示させる際のアニメーション時間と余白
+                rfInstance.fitView({ padding: 0.1, duration: 300 });
             }
         }
     }
