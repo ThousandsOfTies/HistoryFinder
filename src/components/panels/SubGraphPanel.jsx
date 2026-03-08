@@ -3,6 +3,7 @@ import ReactFlow, { Controls, Background } from 'reactflow';
 import { getLayoutedElements } from '../../utils/layoutEngine';
 import { handleWheelZoom } from '../../utils/zoomControl';
 import { nodeTypes, minZoomLevel, maxZoomLevel } from '../../constants/graphConfig';
+import TextArticleView from '../TextArticleView';
 
 // Level 2: 地域サブフロー
 import { europeNodes, europeEdges } from '../../data/europeSubflow';
@@ -75,12 +76,18 @@ const subGraphMap = {
 
 // サブグラフ（詳細フロー）コンポーネント
 const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, handleGraphPaneClick }) => {
-    const [rfInstance, setRfInstance] = useState(null);
     const { subGraphId, label } = panel;
 
     const data = subGraphMap[subGraphId] || { nodes: [], edges: [] };
     const subNodes = data.nodes;
     const subEdges = data.edges;
+
+    // フロー表示ができるか（エッジがあるか）どうかでデフォルトモードとトグル有効性を決定
+    const canShowFlow = subEdges && subEdges.length > 0;
+    const initialMode = canShowFlow ? 'flow' : 'text';
+
+    const [rfInstance, setRfInstance] = useState(null);
+    const [viewMode, setViewMode] = useState(initialMode);
 
     // React.useMemo で計算結果をキャッシュ
     const { layoutedNodes, layoutedEdges } = useMemo(
@@ -91,31 +98,73 @@ const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, h
     return (
         <div className="panel" style={{ width: '50vw' }}>
             <div className="panel-content" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="panel-header">
-                    <h2>{label} (詳細フロー)</h2>
+                <div className="panel-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <h2 style={{ margin: 0 }}>{label} (詳細フロー)</h2>
+                        <div className="view-toggle" style={{ display: 'flex', alignItems: 'center', background: '#374151', borderRadius: '20px', padding: '4px' }}>
+                            <button
+                                onClick={() => canShowFlow && setViewMode('flow')}
+                                disabled={!canShowFlow}
+                                style={{
+                                    padding: '4px 12px',
+                                    borderRadius: '16px',
+                                    border: 'none',
+                                    background: viewMode === 'flow' ? '#3b82f6' : 'transparent',
+                                    color: viewMode === 'flow' ? '#fff' : (canShowFlow ? '#9ca3af' : '#4b5563'),
+                                    cursor: canShowFlow ? 'pointer' : 'not-allowed',
+                                    fontWeight: viewMode === 'flow' ? 'bold' : 'normal',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                フロー
+                            </button>
+                            <button
+                                onClick={() => setViewMode('text')}
+                                style={{
+                                    padding: '4px 12px',
+                                    borderRadius: '16px',
+                                    border: 'none',
+                                    background: viewMode === 'text' ? '#3b82f6' : 'transparent',
+                                    color: viewMode === 'text' ? '#fff' : '#9ca3af',
+                                    cursor: 'pointer',
+                                    fontWeight: viewMode === 'text' ? 'bold' : 'normal',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                記事
+                            </button>
+                        </div>
+                    </div>
                     <button className="panel-close-btn" onClick={() => handleClosePanel(index)} title="閉じる">×</button>
                 </div>
-                <div className="divider"></div>
-                <div
-                    style={{ flex: 1, position: 'relative' }}
-                    onWheelCapture={(e) => handleWheelZoom(e, rfInstance)}
-                >
-                    <ReactFlow
-                        nodes={layoutedNodes}
-                        edges={layoutedEdges}
-                        nodeTypes={nodeTypes}
-                        onInit={setRfInstance}
-                        onNodeClick={(e, node) => handleGraphNodeClick(e, node, index)}
-                        onPaneClick={() => handleGraphPaneClick(index)}
-                        fitView
-                        minZoom={minZoomLevel}
-                        maxZoom={maxZoomLevel}
-                        attributionPosition="bottom-left"
+                <div className="divider" style={{ margin: '10px 0' }}></div>
+
+                {viewMode === 'flow' ? (
+                    <div
+                        style={{ flex: 1, position: 'relative' }}
+                        onWheelCapture={(e) => handleWheelZoom(e, rfInstance)}
                     >
-                        <Background color="#111827" gap={16} />
-                        <Controls />
-                    </ReactFlow>
-                </div>
+                        <ReactFlow
+                            nodes={layoutedNodes}
+                            edges={layoutedEdges}
+                            nodeTypes={nodeTypes}
+                            onInit={setRfInstance}
+                            onNodeClick={(e, node) => handleGraphNodeClick(e, node, index)}
+                            onPaneClick={() => handleGraphPaneClick(index)}
+                            fitView
+                            minZoom={minZoomLevel}
+                            maxZoom={maxZoomLevel}
+                            attributionPosition="bottom-left"
+                        >
+                            <Background color="#111827" gap={16} />
+                            <Controls />
+                        </ReactFlow>
+                    </div>
+                ) : (
+                    <div style={{ flex: 1, position: 'relative' }}>
+                        <TextArticleView nodes={subNodes} edges={subEdges} />
+                    </div>
+                )}
             </div>
         </div>
     );
