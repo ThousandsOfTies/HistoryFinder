@@ -27,7 +27,8 @@ html {
   z-index: 10;
   display: flex;
   align-items: center;
-  overflow-x: auto;
+  overflow-x: scroll;
+  /* auto から scroll に変更してプレースホルダとして常時表示 */
   min-height: 48px;
 
   /* Firefox */

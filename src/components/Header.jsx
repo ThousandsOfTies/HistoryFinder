@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // アプリケーションヘッダー（モード切替 + パンくずリスト）
 const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
+    const headerRef = useRef(null);
+
+    // パンくずが増えた時（パネルリストが変わった時）に右端まで自動スクロールする
+    useEffect(() => {
+        if (headerRef.current) {
+            headerRef.current.scrollTo({
+                left: headerRef.current.scrollWidth,
+                behavior: 'smooth'
+            });
+        }
+    }, [panels, mode]);
+
     return (
-        <header className="app-header">
+        <header className="app-header" ref={headerRef}>
             {/* モード切替タブ */}
             <div className="mode-tabs">
                 <button
