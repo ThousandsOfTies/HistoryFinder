@@ -1,11 +1,10 @@
 /**
- * BBCニュースフィードを rss2json.com 経由で取得し、
+ * アルジャジーラ (Al Jazeera) ニュースフィードをプロキシ経由で取得し、
  * Gemini APIで日本語に一括翻訳するサービス。
  */
 import { GoogleGenAI } from '@google/genai';
 
-const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json';
-const BBC_WORLD_RSS = 'https://feeds.bbci.co.uk/news/world/rss.xml';
+const ALJAZEERA_PROXY_URL = '/api/aljazeera/xml/rss/all.xml';
 
 // Gemini API (翻訳用)
 const ai = new GoogleGenAI({
@@ -81,22 +80,39 @@ ${lines}`;
  */
 export const fetchWorldNews = async () => {
     try {
-        const url = `${RSS2JSON_BASE}?rss_url=${encodeURIComponent(BBC_WORLD_RSS)}`;
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await fetch(ALJAZEERA_PROXY_URL);
+        const xmlText = await response.text();
 
-        if (data.status !== 'ok' || !data.items) {
-            console.error('News fetch failed:', data);
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+        // パースエラーのチェック
+        const errorNode = xmlDoc.querySelector('parsererror');
+        if (errorNode) {
+            console.error('XML parsing error');
             return [];
         }
 
-        const items = data.items.map(item => ({
-            title: item.title,
-            description: item.description?.replace(/<[^>]*>/g, '') || '',
-            pubDate: item.pubDate,
-            link: item.link,
-            thumbnail: item.thumbnail || item.enclosure?.link || null,
-        }));
+        const items = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 10).map(item => {
+            const getElementText = (selector) => {
+                const node = item.querySelector(selector);
+                return node ? node.textContent : '';
+            };
+
+            // descriptionからHTMLタグを削除
+            const rawDesc = getElementText('description');
+            const cleanDesc = rawDesc.replace(/<[^>]*>/g, '').trim();
+
+            return {
+                title: getElementText('title'),
+                description: cleanDesc,
+                pubDate: getElementText('pubDate'),
+                link: getElementText('link'),
+                // Al JazeeraのRSSは enclosure URL や content:encoded に画像を含まないことが多いが、
+                // もしあれば取得するフォールバック
+                thumbnail: item.querySelector('enclosure')?.getAttribute('url') || null,
+            };
+        });
 
         // Gemini で日本語翻訳
         return await translateNews(items);
