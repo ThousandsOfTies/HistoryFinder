@@ -1,12 +1,12 @@
 /**
- * BBC と アルジャジーラ (Al Jazeera) のニュースフィードを並行取得し、
+ * BBC と The New York Times (NYT) のニュースフィードを並行取得し、
  * 統合してGemini APIで日本語に一括翻訳するサービス。
  */
 import { GoogleGenAI } from '@google/genai';
 
 const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json';
 const BBC_WORLD_RSS = 'https://feeds.bbci.co.uk/news/world/rss.xml';
-const ALJAZEERA_PROXY_URL = '/api/aljazeera/xml/rss/all.xml';
+const NYT_WORLD_RSS = 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml';
 
 // Gemini API (翻訳用)
 const ai = new GoogleGenAI({
@@ -101,56 +101,48 @@ const fetchBBCNews = async () => {
 };
 
 /**
- * Al Jazeeraニュースを取得する内部関数
+ * The New York Times ニュースを取得する内部関数
+ * NYTはrss2jsonで取得可能で、画像（media:content）を含みます。
  */
-const fetchAlJazeeraNews = async () => {
+const fetchNYTNews = async () => {
     try {
-        const response = await fetch(ALJAZEERA_PROXY_URL);
-        const xmlText = await response.text();
+        const url = `${RSS2JSON_BASE}?rss_url=${encodeURIComponent(NYT_WORLD_RSS)}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+        if (data.status !== 'ok' || !data.items) return [];
 
-        if (xmlDoc.querySelector('parsererror')) return [];
-
-        return Array.from(xmlDoc.querySelectorAll('item')).slice(0, 5).map(item => {
-            const getElementText = (selector) => {
-                const node = item.querySelector(selector);
-                return node ? node.textContent : '';
-            };
-            const rawDesc = getElementText('description');
-            return {
-                title: `[Al Jazeera] ${getElementText('title')}`,
-                description: rawDesc.replace(/<[^>]*>/g, '').trim(),
-                pubDate: getElementText('pubDate'),
-                link: getElementText('link'),
-                thumbnail: item.querySelector('enclosure')?.getAttribute('url') || null,
-            };
-        });
+        return data.items.map(item => ({
+            title: `[NYT] ${item.title}`,
+            description: item.description?.replace(/<[^>]*>/g, '') || '',
+            pubDate: item.pubDate,
+            link: item.link,
+            thumbnail: item.thumbnail || item.enclosure?.link || null,
+        })).slice(0, 5);
     } catch (e) {
-        console.error('Al Jazeera fetch error:', e);
+        console.error('NYT fetch error:', e);
         return [];
     }
 };
 
 /**
- * 最新の国際ニュース一覧（BBCとAl Jazeeraの混成）を取得し、日本語に翻訳して返す。
+ * 最新の国際ニュース一覧（BBCとNYTの混成）を取得し、日本語に翻訳して返す。
  * @returns {Promise<Array<{title: string, description: string, pubDate: string, link: string, thumbnail: string}>>}
  */
 export const fetchWorldNews = async () => {
     try {
         // 並列で両方のニュースを取得
-        const [bbcItems, ajItems] = await Promise.all([
+        const [bbcItems, nytItems] = await Promise.all([
             fetchBBCNews(),
-            fetchAlJazeeraNews()
+            fetchNYTNews()
         ]);
 
         // 両メディアのニュースを交互に混ぜる (Interleave)
         const mixedItems = [];
-        const maxLength = Math.max(bbcItems.length, ajItems.length);
+        const maxLength = Math.max(bbcItems.length, nytItems.length);
         for (let i = 0; i < maxLength; i++) {
             if (i < bbcItems.length) mixedItems.push(bbcItems[i]);
-            if (i < ajItems.length) mixedItems.push(ajItems[i]);
+            if (i < nytItems.length) mixedItems.push(nytItems[i]);
         }
 
         // Gemini で一括翻訳 (最大10件程度)
