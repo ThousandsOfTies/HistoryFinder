@@ -53,11 +53,22 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
         };
 
         if (!isLogic) {
+            // アイコンURLの正規化（GitHub Pages などのベースパスに対応）
+            const normalizeIconUrl = (path) => {
+                if (!path) return '';
+                // すでに http などで始まる場合はそのまま
+                if (path.startsWith('http') || path.startsWith('data:')) return path;
+
+                const base = import.meta.env.BASE_URL || '/';
+                const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+                return `${base}${cleanPath}`.replace(/\/+/g, '/');
+            };
+
             processedNode.type = 'history';
             processedNode.data = {
                 ...node.data,
-                // node.data に直接 `iconUrl` が指定されている場合はそれを最優先する
-                iconUrl: node.data.iconUrl || iconMap[node.data.type || 'event'] || '/icons/event.png',
+                // node.data に直接 `iconUrl` が指定されている場合はそれを優先しつつ正規化
+                iconUrl: normalizeIconUrl(node.data.iconUrl || iconMap[node.data.type || 'event'] || 'icons/event.png'),
                 customStyle: {
                     background: node.style?.background || '#1f2937',
                     color: node.style?.color || '#fff',

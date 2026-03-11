@@ -11,12 +11,12 @@ export const maxZoomLevel = 5.0;
 
 // ノードタイプに対応するアイコンのマッピング
 export const iconMap = {
-    'root_cause': '/icons/root_cause.png',
-    'event': '/icons/event.png',
-    'macro_event': '/icons/macro_event.png',
-    'context': '/icons/event.png',
-    'action': '/icons/event.png',
-    'result': '/icons/result.png'
+    'root_cause': 'icons/root_cause.png',
+    'event': 'icons/event.png',
+    'macro_event': 'icons/macro_event.png',
+    'context': 'icons/event.png',
+    'action': 'icons/event.png',
+    'result': 'icons/result.png'
 };
 
 // React Flow に登録するカスタムノードの種類
