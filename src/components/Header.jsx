@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from 'react';
 const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
     const headerRef = useRef(null);
 
-    // パンくずが増えた時（パネルリストが変わった時）に右端まで自動スクロールする
+    // パンくずが増えた時に右端まで自動スクロールする
     useEffect(() => {
         if (headerRef.current) {
             headerRef.current.scrollTo({

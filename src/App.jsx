@@ -25,10 +25,9 @@ import NewsFeedPanel from './components/panels/NewsFeedPanel';
 import CausalChainPanel from './components/panels/CausalChainPanel';
 
 function App() {
-  // アプリモード: 'classic'（従来の歴史マップ） or 'news'（ニュース駆動）
+  // アプリモード: 'classic'（歴史マップ） or 'news'（ニュース）
   const [mode, setMode] = useState('classic');
 
-  // クラシックモード用
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [mainRfInstance, setMainRfInstance] = useState(null);
@@ -46,7 +45,7 @@ function App() {
     handleNewsClick,
   } = usePanelManager();
 
-  // モードが変更されたらパネルをリセット
+  // モード切替時にパネルをリセット
   useEffect(() => {
     closeAllPanels();
   }, [mode, closeAllPanels]);
@@ -119,7 +118,7 @@ function App() {
 
       <div className="main-content" ref={panelsContainerRef}>
         {mode === 'classic' ? (
-          /* クラシックモード: 従来のグランドマップ */
+          /* クラシックモード: グランドマップ */
           <div
             className={`chart-panel ${panels.length > 0 ? 'has-panels' : ''}`}
             onWheelCapture={(e) => handleWheelZoom(e, mainRfInstance)}
@@ -143,7 +142,7 @@ function App() {
             </ReactFlow>
           </div>
         ) : (
-          /* ニュースモード: ニュース一覧パネル */
+          /* ニュースモード: BBC + NYT ニュース一覧 */
           <div className={`news-panel-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>
             <NewsFeedPanel onNewsClick={handleNewsClick} />
           </div>
