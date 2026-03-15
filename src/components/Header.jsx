@@ -16,6 +16,11 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
 
     return (
         <header className="app-header" ref={headerRef}>
+            {/* ロゴとタイトル */}
+            <div className="app-branding">
+                <img src="./historyfinder_logo.png" alt="HistoryFinder Logo" className="header-logo" />
+            </div>
+
             {/* モード切替タブ */}
             <div className="mode-tabs">
                 <button

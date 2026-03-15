@@ -22,7 +22,7 @@ html {
 .app-header {
   padding: 1rem 2rem;
   background-color: #1f2937;
-  border-bottom: 1px solid #374151;
+  border-bottom: 2px solid #fbbf24;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 10;
   display: flex;
@@ -34,6 +34,19 @@ html {
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: #4b5563 #1f2937;
+}
+
+.app-branding {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.3));
 }
 
 /* WebKit (Chrome, Edge, Safari) */
