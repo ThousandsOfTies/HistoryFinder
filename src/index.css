@@ -362,9 +362,7 @@ html {
 .history-icon-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* アイコンが削れすぎないようにズーム倍率を 1.6 から 1.35 へ緩和 */
-  transform: scale(1.35);
+  object-fit: contain;
 }
 
 .history-label {
@@ -580,6 +578,113 @@ html {
 .causal-loading-sub {
   font-size: 0.85rem !important;
   color: #6b7280 !important;
+}
+
+/* YouTube 動画セクション */
+.youtube-section {
+  margin-top: 2rem;
+  border-top: 1px solid #374151;
+  padding-top: 1.5rem;
+}
+
+.youtube-section-title {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.youtube-loading {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.youtube-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.youtube-card {
+  background: #111827;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #374151;
+  transition: border-color 0.2s;
+}
+
+.youtube-card:hover {
+  border-color: #4b5563;
+}
+
+.youtube-thumbnail-wrapper {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.youtube-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.youtube-thumbnail-wrapper:hover .youtube-thumbnail {
+  opacity: 0.7;
+}
+
+.youtube-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.85);
+  color: #fff;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding-left: 4px;
+  transition: background 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.youtube-thumbnail-wrapper:hover .youtube-play-btn {
+  background: rgba(255, 0, 0, 1);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.youtube-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+}
+
+.youtube-title {
+  margin: 0.5rem 0.75rem 0.25rem;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.youtube-channel {
+  margin: 0 0.75rem 0.6rem;
+  font-size: 0.75rem;
+  color: #6b7280;
 }
 
 @keyframes spin {

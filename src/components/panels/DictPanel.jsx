@@ -1,5 +1,5 @@
-import React from 'react';
 import { renderTextWithLinks } from '../../utils/textParser';
+import YouTubeSection from './YouTubeSection';
 
 // AI辞書解説パネル（キーワードリンククリック時に開く）
 const DictPanel = ({ panel, index, onClose, onKeywordClick }) => {
@@ -27,7 +27,6 @@ const DictPanel = ({ panel, index, onClose, onKeywordClick }) => {
                 </div>
                 <div className="divider" style={{ background: 'linear-gradient(90deg, #60a5fa, transparent)' }}></div>
 
-                {/* 画像が存在する場合は表示 */}
                 {panel.imageUrl && (
                     <div className="panel-image-container">
                         <img src={panel.imageUrl} alt={panel.keyword} className="panel-image" />
@@ -39,6 +38,8 @@ const DictPanel = ({ panel, index, onClose, onKeywordClick }) => {
                 <div className="node-stats">
                     <span className="badge" style={{ color: '#60a5fa', backgroundColor: '#1e3a8a' }}>AI 解説</span>
                 </div>
+
+                <YouTubeSection keyword={panel.keyword} />
             </div>
         </div>
     );
