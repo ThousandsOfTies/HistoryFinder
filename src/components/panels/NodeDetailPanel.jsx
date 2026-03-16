@@ -7,7 +7,7 @@ const NodeDetailPanel = ({ panel, index, onClose, onKeywordClick }) => {
     const keyword = data.label.replace('\n', ' ').trim();
 
     return (
-        <div className="panel">
+        <div className="panel panel--scrollable">
             <div className="panel-content">
                 <div className="panel-header">
                     <h2>{keyword}</h2>

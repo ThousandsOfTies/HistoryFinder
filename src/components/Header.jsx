@@ -27,7 +27,7 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
                     className={`mode-tab ${mode === 'classic' ? 'active' : ''}`}
                     onClick={() => onModeChange('classic')}
                 >
-                    📖 クラシック
+                    📖 世界史
                 </button>
                 <button
                     className={`mode-tab ${mode === 'news' ? 'active' : ''}`}
@@ -42,7 +42,7 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
             {/* パンくずリスト */}
             <div className="breadcrumbs">
                 <div className="breadcrumb-item home" onClick={() => onBreadcrumbClick(-1)}>
-                    {mode === 'classic' ? '🌎 歴史因果関係（概要）' : '📰 今日のニュース'}
+                    {mode === 'classic' ? '🌎 全体図' : '📰 今日のニュース'}
                 </div>
 
                 {panels.map((panel, index) => {

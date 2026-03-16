@@ -11,7 +11,8 @@ export const mesopotamiaNodes = [
         data: {
             label: '氷期からの温暖化と\n自然環境の変化',
             type: 'context',
-            details: '約1万年前、地球規模の気候変動により[[氷期]]が終わり、沖積平野や大河周辺の自然環境が大きく変化しました。\n\n氷河が後退して気候が温暖化した（[[完新世]]）ことで、野生の麦など栽培可能な植物群落や、家畜化に適した動物が生息地を広げました。これが後の農業革命の舞台を整えることになります。'
+            details: '約1万年前、地球規模の気候変動により[[氷期]]が終わり、沖積平野や大河周辺の自然環境が大きく変化しました。\n\n氷河が後退して気候が温暖化した（[[完新世]]）ことで、野生の麦など栽培可能な植物群落や、家畜化に適した動物が生息地を広げました。これが後の農業革命の舞台を整えることになります。',
+            iconUrl: '/icons/ice_age_end.png'
         },
         style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -21,7 +22,8 @@ export const mesopotamiaNodes = [
         data: {
             label: '大河川流域における\n大規模な治水・灌漑の必要性',
             type: 'root_cause',
-            details: '[[メソポタミア文明]]やエジプトなどの乾燥地帯で農業を行うには、大河の氾濫を制御し水を引く（[[灌漑]]）ための大規模な共同作業が不可欠だった。'
+            details: '[[メソポタミア文明]]やエジプトなどの乾燥地帯で農業を行うには、大河の氾濫を制御し水を引く（[[灌漑]]）ための大規模な共同作業が不可欠だった。',
+            iconUrl: '/icons/irrigation.png'
         },
         style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -38,7 +40,7 @@ export const mesopotamiaNodes = [
         data: {
             label: '大河沿いへの定住と\n治水(灌漑)システムの構築',
             type: 'event',
-            iconUrl: '/icons/sumerian.png',
+            iconUrl: '/icons/settlement.png',
             details: 'ティグリス川・ユーフラテス川、ナイル川などの大河がもたらす肥沃な泥土を利用するため、人々は川沿いに定住しました。\n\n毎年のように起こる洪水を制御し、乾燥地帯に水を引くための大規模な「[[灌漑農業]]」システムを構築するには、多くの人々の労働力を組織し、統率する強力なリーダーシップが必要不可欠となりました。これが後の王権成立に繋がります（[[メソポタミア]]）。'
         },
         style: { background: '#d97706', color: '#fff', border: '2px solid #f59e0b', borderRadius: '4px', width: 250, padding: '10px' }
@@ -49,7 +51,8 @@ export const mesopotamiaNodes = [
         data: {
             label: '余剰生産と社会階層の誕生\n(神官・役人・職人)',
             type: 'action',
-            details: '灌漑農業によって莫大な食糧の「余剰」が生まれ、全員が農作業をする必要がなくなりました。\n\nこれにより、治水を指導する王や神官、穀物を管理する役人、青銅器や土器を作る専業職人など、非農業従事者が誕生し、社会に明確な身分階層（ヒエラルキー）が形成される（[[文明]]）に至りました。[[楔形文字]]や暦もこの管理の必要性から発明されました。'
+            details: '灌漑農業によって莫大な食糧の「余剰」が生まれ、全員が農作業をする必要がなくなりました。\n\nこれにより、治水を指導する王や神官、穀物を管理する役人、青銅器や土器を作る専業職人など、非農業従事者が誕生し、社会に明確な身分階層（ヒエラルキー）が形成される（[[文明]]）に至りました。[[楔形文字]]や暦もこの管理の必要性から発明されました。',
+            iconUrl: '/icons/surplus_production.png'
         },
         style: { background: '#059669', color: '#fff', border: '2px solid #10b981', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -61,7 +64,7 @@ export const mesopotamiaNodes = [
         data: {
             label: '広域な交易ネットワーク\nの成立',
             type: 'result',
-            iconUrl: '/icons/result.png',
+            iconUrl: '/icons/trade_network.png',
             details: '大河川の恩恵で豊かな穀物を持つ一方、メソポタミアでは金属や木材が不足していました。このため、遠方の地域（アナトリア、イラン高原、インダス文明など）との間で、穀物と引き換えにこれらの資源を得るための広域な[[古代の貿易]]路が大きく開拓されました。'
         },
         style: { background: '#000000', color: '#fff', border: '2px solid #ec4899', borderRadius: '4px', width: 250, padding: '10px' }

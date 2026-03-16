@@ -5,7 +5,7 @@ import YouTubeSection from './YouTubeSection';
 const DictPanel = ({ panel, index, onClose, onKeywordClick }) => {
     if (panel.loading) {
         return (
-            <div className="panel">
+            <div className="panel panel--scrollable">
                 <div className="panel-content">
                     <div className="panel-header">
                         <h2>{panel.keyword}</h2>
@@ -19,7 +19,7 @@ const DictPanel = ({ panel, index, onClose, onKeywordClick }) => {
     }
 
     return (
-        <div className="panel">
+        <div className="panel panel--scrollable">
             <div className="panel-content">
                 <div className="panel-header">
                     <h2>{panel.keyword}</h2>

@@ -7,6 +7,24 @@ html {
   background-color: #111827;
   /* Dark mode background */
   color: #f3f4f6;
+  overflow-y: hidden !important; /* Force hide vertical scroll globally */
+  overflow-x: auto; /* Allow horizontal scroll broadly */
+}
+
+/* Global: Hide ALL vertical scrollbars but ensure horizontal ones are visible */
+::-webkit-scrollbar:vertical {
+  display: none !important;
+  width: 0 !important;
+}
+
+::-webkit-scrollbar:horizontal {
+  display: block !important;
+  height: 8px !important;
+}
+
+::-webkit-scrollbar {
+  width: 0px; /* Hide vertical width */
+  height: 8px; /* Show horizontal height */
 }
 
 #root {
@@ -27,13 +45,17 @@ html {
   z-index: 10;
   display: flex;
   align-items: center;
-  overflow-x: scroll;
-  /* auto から scroll に変更してプレースホルダとして常時表示 */
-  min-height: 48px;
-
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #4b5563 #1f2937;
+  scrollbar-color: #4b5563 #374151;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* WebKit (Chrome, Edge, Safari) - Ensure horizontal scrollbar is visible if needed */
+.app-header::-webkit-scrollbar {
+  height: 8px;
+  display: block;
 }
 
 .app-branding {
@@ -49,13 +71,23 @@ html {
   filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.3));
 }
 
+.app-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: 0.05em;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
 /* WebKit (Chrome, Edge, Safari) */
 .app-header::-webkit-scrollbar {
   height: 8px;
+  display: block;
 }
 
 .app-header::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: #374151;
   border-radius: 4px;
 }
 
@@ -100,10 +132,19 @@ html {
   display: flex;
   flex: 1;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: hidden; /* Disable vertical scroll function */
   position: relative;
   background-color: #111827;
   scroll-behavior: smooth;
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 #374151;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.main-content::-webkit-scrollbar {
+  height: 8px;
+  display: block !important;
 }
 
 .chart-panel {
@@ -125,9 +166,13 @@ html {
   flex-shrink: 0;
   background-color: #1f2937;
   border-left: 1px solid #374151;
-  overflow-y: auto;
+  overflow-y: hidden; /* Disabled vertical scroll */
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s ease-out forwards;
+}
+
+.panel--scrollable {
+  overflow-y: auto;
 }
 
 @keyframes slideIn {
@@ -429,7 +474,7 @@ html {
 .news-panel-wrapper {
   flex-shrink: 0;
   width: 100vw;
-  overflow-y: auto;
+  overflow-y: hidden; /* Disabled vertical scroll */
   transition: width 0.3s ease;
 }
 
