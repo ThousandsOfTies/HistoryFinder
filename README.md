@@ -1,16 +1,33 @@
-# React + Vite
+# HistoryFinder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+歴史の因果関係をインタラクティブなフロー図で探求するWebアプリ。
 
-Currently, two official plugins are available:
+**[Launch HistoryFinder →](https://thousandsofties.github.io/HistoryFinder/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 機能
 
-## React Compiler
+- **インタラクティブなフロー図** - 歴史的事象の因果関係をノードとエッジで可視化
+- **AI 解説** - キーワードをクリックすると Gemini AI による詳細解説を表示
+- **YouTube 動画** - 各トピックに関連する YouTube 動画をアプリ内でインライン再生
+- **ニュースモード** - BBC・NYT の最新ニュースを歴史的文脈で表示
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 技術スタック
 
-## Expanding the ESLint configuration
+- **React 18** + **Vite**
+- **React Flow** - フロー図の描画
+- **Google Gemini API** - AI 解説生成
+- **YouTube Data API v3** - 関連動画検索
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ローカル開発
+
+```bash
+npm install
+npm run dev
+```
+
+`.env` ファイルに API キーを設定：
+
+```
+VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_YOUTUBE_API_KEY=your_youtube_api_key
+```
