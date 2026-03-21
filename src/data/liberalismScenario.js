@@ -57,7 +57,7 @@ export const liberalismNodes = [
             label: '西側の経済的優位と戦略的圧力', 
             type: 'result', 
             details: '1980年代、IT革命による経済のハイテク化と、レーガン政権の強い軍事外交（SDI計画等）が東側を圧倒。冷戦終結の決定打となった。',
-            iconUrl: '/icons/state_patron_anime.png'
+            iconUrl: '/icons/western_pressure_anime.png'
         }, 
         position: { x: 300, y: 350 }, style: { background: '#1e3a8a', color: '#fff', border: '3px solid #3b82f6', borderRadius: '8px', width: 250, padding: '15px' } 
     },

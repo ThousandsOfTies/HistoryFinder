@@ -21,7 +21,7 @@ export const communismNodes = [
             label: '近代のソ連(ロシア)',
             type: 'macro_event',
             details: '[[ロシア革命]]により史上初の社会主義国家が誕生。スターリン体制下で強権的な中央集権化と重工業化を推進した。',
-            iconUrl: '/icons/cold_war.png',
+            iconUrl: '/icons/ussr_modern_anime.png',
             subGraphId: 'ussr'
         },
         style: { background: '#b91c1c', color: '#fff', border: 'none', borderRadius: '4px', width: 220, padding: '10px' }
@@ -45,7 +45,7 @@ export const communismNodes = [
             label: '社会主義経済の停滞とペレストロイカ', 
             type: 'result', 
             details: '重工業中心の計画経済が、情報社会の進展に追いつけず深刻な物不足や成長鈍化に陥った。ゴルバジョフによる抜本的な改革と自由化が、結果として体制の崩壊を導いた。',
-            iconUrl: '/icons/cold_war.png'
+            iconUrl: '/icons/perestroika_anime.png'
         }, 
         position: { x: 300, y: 350 }, style: { background: '#991b1b', color: '#fff', border: '3px solid #ef4444', borderRadius: '8px', width: 250, padding: '15px' } 
     },

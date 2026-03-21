@@ -38,7 +38,7 @@ export const grandNodes = [
     // 近代の夜明けと帝国主義
     // ==========================================
     { id: 'CAUSE-IndustrialRev', type: 'default', data: { label: '産業革命', type: 'context', iconUrl: '/icons/industrial_revolution.png', details: '生産力の爆発的向上。', subGraphId: 'industrial_rev', manualPosition: true }, position: { x: COL2 - 280, y: 740 }, style: { background: '#44403c', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
-    { id: 'CAUSE-NationState', type: 'default', data: { label: '市民革命・国民国家', type: 'context', iconUrl: '/icons/renaissance.png', details: 'ナショナリズムの誕生。', subGraphId: 'nation_state', manualPosition: true }, position: { x: COL2 - 330, y: 840 }, style: { background: '#7c2d12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
+    { id: 'CAUSE-NationState', type: 'default', data: { label: '市民革命・国民国家', type: 'context', iconUrl: '/icons/nation_state_anime.png', details: 'ナショナリズムの誕生。', subGraphId: 'nation_state', manualPosition: true }, position: { x: COL2 - 330, y: 840 }, style: { background: '#7c2d12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
     { id: 'CAUSE-DevGap', type: 'default', data: { label: '西洋の優位と格差', type: 'context', iconUrl: '/icons/development_gap.png', details: '西洋と他の地域の力のバランスが崩れた。', subGraphId: 'development_gap', manualPosition: true }, position: { x: 1140, y: 840 }, style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
     
     { id: 'GLOBAL-AND-2', type: 'logic', data: { operator: 'AND', symbol: '＊', manualPosition: true }, position: { x: CX - 25, y: 950 } },

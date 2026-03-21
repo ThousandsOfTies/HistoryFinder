@@ -9,7 +9,8 @@ export const nationStateNodes = [
         data: {
             label: '啓蒙思想と社会契約説',
             type: 'root_cause',
-            details: 'ロックやルソーなど、人間は生まれながらに自由であり、国家は国民との契約（[[社会契約]]）に基づくと考えられるようになった。'
+            details: 'ロックやルソーなど、人間は生まれながらに自由であり、国家は国民との契約（[[社会契約]]）に基づくと考えられるようになった。',
+            iconUrl: '/icons/enlightenment_anime.png'
         },
         style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '4px', width: 220, padding: '10px' }
     },
@@ -19,7 +20,8 @@ export const nationStateNodes = [
         data: {
             label: '市民革命(英・米・仏)',
             type: 'macro_event',
-            details: '絶対王政を倒し、個人の権利（自由権・平等権）と民主制を求めた革命。フランス革命における[[人権宣言]]は近代社会の設計図となった。'
+            details: '絶対王政を倒し、個人の権利（自由権・平等権）と民主制を求めた革命。フランス革命における[[人権宣言]]は近代社会の設計図となった。',
+            iconUrl: '/icons/civil_revolution_anime.png'
         },
         style: { background: '#056d4d', color: '#fff', border: '2px solid #10b981', borderRadius: '4px', width: 220, padding: '10px' }
     },
@@ -34,7 +36,8 @@ export const nationStateNodes = [
         data: {
             label: 'ナショナリズムの覚醒',
             type: 'context',
-            details: '自分たちは「国民」という一つの集団であるという[[ナショナリズム]]。ナポレオン戦争を経て全ヨーロッパにこの意識が広まった。'
+            details: '自分たちは「国民」という一つの集団であるという[[ナショナリズム]]。ナポレオン戦争を経て全ヨーロッパにこの意識が広まった。',
+            iconUrl: '/icons/nationalism_awakening_anime.png'
         },
         style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' }
     },

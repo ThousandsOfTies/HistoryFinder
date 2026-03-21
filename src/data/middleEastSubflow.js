@@ -8,7 +8,7 @@ export const middleEastNodes = [
 
 
     { id: 'ME-AND-1', type: 'logic', data: { operator: 'AND', symbol: '＊' } },
-    { id: 'ME-ArabUnification', type: 'default', data: { label: 'アラビア半島の統一', type: 'context', details: '[[ムハンマド]]がイスラーム教を創始し、部族社会だった[[アラビア半島]]を宗教的に統一。ペルシアとビザンツの消耗戦の間隙を突いて急速に拡大した。' }, position: { x: 0, y: 0 }, style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
+    { id: 'ME-ArabUnification', type: 'default', data: { label: 'アラビア半島の統一', type: 'context', iconUrl: '/icons/arab_unification_anime.png', details: '[[ムハンマド]]がイスラーム教を創始し、部族社会だった[[アラビア半島]]を宗教的に統一。ペルシアとビザンツの消耗戦の間隙を突いて急速に拡大した。' }, position: { x: 0, y: 0 }, style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
 
     { id: 'ME-Islam', type: 'default', data: { label: 'イスラーム帝国の成立', type: 'event', iconUrl: '/icons/islamic_empire.png', details: '[[ウマイヤ朝]]・[[アッバース朝]]などの大帝国を築き、中東からスペインまでを統合。学問・交易が飛躍的に発展した。', subGraphId: 'islamic_empire' }, position: { x: 0, y: 0 }, style: { background: '#059669', color: '#fff', border: 'none', borderRadius: '4px', width: 220, padding: '10px' } },
 
