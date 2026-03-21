@@ -20,7 +20,7 @@ export const ottomanNodes = [
         data: {
             label: 'ガーズィーの情熱と\n強力な常備軍',
             type: 'root_cause',
-            iconUrl: '/icons/ottoman.png',
+            iconUrl: '/icons/ottoman_janissary_anime.png',
             details: '異教徒と戦う聖戦士（[[ガーズィー]]）のモチベーションと、[[イェニチェリ]]と呼ばれるスルタン直属の強力な常備軍の存在。この軍事力と宗教的熱意が、オスマン帝国の急速な拡大を可能にしました。'
         },
         style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '4px', width: 250, padding: '10px' }
@@ -48,6 +48,7 @@ export const ottomanNodes = [
         data: {
             label: 'コンスタンティノープル陥落\n(1453年)',
             type: 'event',
+            iconUrl: '/icons/ottoman_constantinople_anime.png',
             details: '[[メフメト2世]]による歴史的大事件。[[コンスタンティノープルの陥落|難攻不落の巨大な城壁を大砲で打ち破り]]、千年以上続いた東ローマ(ビザンツ)帝国を滅亡させた。この陥落は、オスマン帝国が真の帝国へと変貌する象徴的な出来事でした。'
         },
         style: { background: '#d97706', color: '#fff', border: '2px solid #f59e0b', borderRadius: '4px', width: 250, padding: '10px' }
@@ -60,7 +61,7 @@ export const ottomanNodes = [
         data: {
             label: 'ビザンツ帝国の滅亡と\n三大陸支配(全盛期)',
             type: 'event',
-            iconUrl: '/icons/hominid.png',
+            iconUrl: '/icons/ottoman.png',
             details: '1453年、メフメト2世の巨大な大砲による包囲戦により、千年続いたビザンツ帝国の首都[[コンスタンティノープルの陥落|コンスタンティノープルが陥落]]。都市は「イスタンブール」へと生まれ変わり、帝国の新首都となりました。\n\n続く[[スレイマン1世]]（壮麗帝）の時代には、西はウィーンを包囲し（ヨーロッパへの衝撃）、地中海の制海権を掌握（プレヴェザの海戦）。ヨーロッパ・アジア・アフリカの三大陸にまたがる空前の巨大帝国のもと、パクス・オトマニカ（オスマンの平和）と呼ばれる全盛期を築き上げました。'
         },
         style: { background: '#000000', color: '#fff', border: '2px solid #10b981', borderRadius: '4px', width: 250, padding: '10px' }
@@ -71,7 +72,7 @@ export const ottomanNodes = [
         data: {
             label: '伝統主義の弊害と\n巨大帝国の衰退',
             type: 'result',
-            iconUrl: '/icons/result.png',
+            iconUrl: '/icons/ottoman_decline_anime.png',
             details: '地中海交易を独占し、[[カピチュレーション]]（恩恵的特権）をフランスなどに与える余裕を見せていたオスマン帝国ですが、大航海時代による「経済の中心の太平洋・大西洋へのシフト」を察知できずにいました。\n\nまた、かつて最強を誇った軍隊（イェニチェリ）は既得権益化・腐敗して近代化の最大の障壁となり、産業革命を果たし軍事力を飛躍させた近代ヨーロッパ列強に対し、18世紀以降は連戦連敗の「瀕死の病人」へと転落していくことになります。'
         },
         style: { background: '#000000', color: '#fff', border: '2px solid #a855f7', borderRadius: '4px', width: 250, padding: '10px' }

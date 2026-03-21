@@ -4,6 +4,8 @@ import { addArrowMarkers } from './edgeUtils';
 
 export const middleEastNodes = [
     { id: 'ME-Orient', type: 'default', data: { label: 'オリエント・ペルシア帝国', type: 'macro_event', iconUrl: '/icons/orient_persia.png', details: '[[メソポタミア文明]]・[[エジプト文明]]を統合した[[アケメネス朝ペルシア]]が広大な帝国を築く。最初の「世界帝国」と呼ばれた。', subGraphId: 'orient' }, position: { x: 0, y: 0 }, style: { background: '#059669', color: '#fff', border: 'none', borderRadius: '4px', width: 220, padding: '10px' } },
+    { id: 'ME-PersianRevival', type: 'default', data: { label: 'パルティアとササン朝', type: 'macro_event', iconUrl: '/icons/orient_persia.png', details: 'ローマ帝国と対峙し、シルクロードの中継貿易で繁栄したイラン系王朝。パルティアの重装騎兵とササン朝の文化がイスラームへ引き継がれた。', subGraphId: 'parthia' }, position: { x: 0, y: 0 }, style: { background: '#059669', color: '#fff', border: 'none', borderRadius: '4px', width: 220, padding: '10px' } },
+
 
     { id: 'ME-AND-1', type: 'logic', data: { operator: 'AND', symbol: '＊' } },
     { id: 'ME-ArabUnification', type: 'default', data: { label: 'アラビア半島の統一', type: 'context', details: '[[ムハンマド]]がイスラーム教を創始し、部族社会だった[[アラビア半島]]を宗教的に統一。ペルシアとビザンツの消耗戦の間隙を突いて急速に拡大した。' }, position: { x: 0, y: 0 }, style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 220, padding: '10px' } },
@@ -16,8 +18,10 @@ export const middleEastNodes = [
 ];
 
 const rawEdges = [
-    { id: 'me-sub-1', source: 'ME-Orient', target: 'ME-AND-1', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },
+    { id: 'me-sub-1', source: 'ME-Orient', target: 'ME-PersianRevival', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },
+    { id: 'me-sub-1-2', source: 'ME-PersianRevival', target: 'ME-AND-1', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },
     { id: 'me-sub-2', source: 'ME-ArabUnification', target: 'ME-AND-1', type: 'straight', style: { stroke: '#ca8a04', strokeWidth: 2 } },
+
     { id: 'me-sub-3', source: 'ME-AND-1', target: 'ME-Islam', type: 'straight', style: { stroke: '#d1d5db', strokeWidth: 3 } },
     { id: 'me-sub-4', source: 'ME-Islam', target: 'ME-Turkic', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },
     { id: 'me-sub-5', source: 'ME-Turkic', target: 'ME-Ottoman', type: 'straight', style: { stroke: '#059669', strokeWidth: 3 } },

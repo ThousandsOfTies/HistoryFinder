@@ -38,6 +38,18 @@ import { songYuanNodes, songYuanEdges } from '../../data/songYuanScenario';
 import { grecoRomanNodes, grecoRomanEdges } from '../../data/grecoRomanScenario';
 import { mesopotamiaNodes, mesopotamiaEdges } from '../../data/mesopotamiaScenario';
 import { crusadesNodes, crusadesEdges } from '../../data/crusadesScenario';
+import { navigationNodes, navigationEdges } from '../../data/navigationScenario';
+import { industrialRevNodes, industrialRevEdges } from '../../data/industrialRevScenario';
+import { nationStateNodes, nationStateEdges } from '../../data/nationStateScenario';
+import { developmentGapNodes, developmentGapEdges } from '../../data/developmentGapScenario';
+import { modernIndiaNodes, modernIndiaEdges } from '../../data/modernIndiaScenario';
+import { parthiaNodes, parthiaEdges } from '../../data/parthiaScenario';
+import { liberalismNodes, liberalismEdges } from '../../data/liberalismScenario';
+import { communismNodes, communismEdges } from '../../data/communismScenario';
+import { ussrNodes, ussrEdges } from '../../data/ussrScenario';
+
+
+
 
 // サブグラフIDとデータのマッピング
 const subGraphMap = {
@@ -72,7 +84,19 @@ const subGraphMap = {
     greco_roman: { nodes: grecoRomanNodes, edges: grecoRomanEdges },
     mesopotamia: { nodes: mesopotamiaNodes, edges: mesopotamiaEdges },
     crusades: { nodes: crusadesNodes, edges: crusadesEdges },
+    navigation: { nodes: navigationNodes, edges: navigationEdges },
+    industrial_rev: { nodes: industrialRevNodes, edges: industrialRevEdges },
+    nation_state: { nodes: nationStateNodes, edges: nationStateEdges },
+    development_gap: { nodes: developmentGapNodes, edges: developmentGapEdges },
+    modern_india: { nodes: modernIndiaNodes, edges: modernIndiaEdges },
+    parthia: { nodes: parthiaNodes, edges: parthiaEdges },
+    liberalism: { nodes: liberalismNodes, edges: liberalismEdges },
+    communism: { nodes: communismNodes, edges: communismEdges },
+    ussr: { nodes: ussrNodes, edges: ussrEdges },
 };
+
+
+
 
 // サブグラフ（詳細フロー）コンポーネント
 const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, handleGraphPaneClick }) => {

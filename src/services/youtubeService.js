@@ -1,34 +1,33 @@
-// YouTube Data API v3 を使って動画を検索する
-// VITE_YOUTUBE_API_KEY が未設定の場合は VITE_GEMINI_API_KEY を流用する
-const YOUTUBE_API_KEY =
-    import.meta.env.VITE_YOUTUBE_API_KEY || import.meta.env.VITE_GEMINI_API_KEY || '';
+// ==== 完全無料・無制限の自前スクレイピングサーバーを利用する方式 ====
+// 以前のAPIキー類はもう不要です（GoogleのQuotaや制限に依存しません）
+
+const PROXY_SERVER_URL = import.meta.env.VITE_YOUTUBE_PROXY_URL || 'http://localhost:8085/api/search';
 
 /**
- * キーワードに関連する YouTube 動画を検索して返す。
- * @param {string} keyword - 検索する歴史用語
- * @param {number} maxResults - 取得件数（デフォルト3）
- * @returns {Promise<Array<{id: string, title: string, thumbnail: string}>>}
+ * キーワードに関連する YouTube 動画を、自作のプロキシサーバーを経由して検索し、返す。
+ * @param {string} keyword 検索キーワード
+ * @param {number} maxResults 取得件数 (最大10)
+ * @returns {Promise<Array<{id: string, title: string, thumbnail: string, channel: string}>>}
  */
 export const searchYouTubeVideos = async (keyword, maxResults = 3) => {
-    if (!YOUTUBE_API_KEY) return [];
-
     try {
-        const query = encodeURIComponent(`${keyword} 解説 歴史`);
-        const res = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=${maxResults}&relevanceLanguage=ja&key=${YOUTUBE_API_KEY}`
-        );
-        const data = await res.json();
+        const query = encodeURIComponent(`${keyword} 歴史 OR 解説`);
+        const response = await fetch(`${PROXY_SERVER_URL}?q=${query}&limit=${maxResults}`);
 
-        if (!data.items) return [];
+        if (!response.ok) {
+            console.error('Proxy Server API request failed:', response.status);
+            return [];
+        }
 
-        return data.items.map(item => ({
-            id: item.id.videoId,
-            title: item.snippet.title,
-            thumbnail: item.snippet.thumbnails.medium?.url || item.snippet.thumbnails.default?.url,
-            channel: item.snippet.channelTitle,
-        }));
+        const videos = await response.json();
+        
+        // 自作サーバーはすでに正しい構造配列 {id, title, thumbnail, channel} を返すのでそのまま返却
+        return videos;
+
     } catch (e) {
-        console.warn('YouTube search error:', e);
+        console.warn('Proxy Server fetch error:', e);
+        // ローカルサーバーが立っていない（npm startしていない）場合はこちらに進む
+        console.warn('※ ローカルのスクレイピングサーバー (youtube-proxy) が起動していない可能性があります。');
         return [];
     }
 };

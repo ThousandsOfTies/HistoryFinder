@@ -39,6 +39,7 @@ jobs:
         env:
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_YOUTUBE_API_KEY: ${{ secrets.VITE_YOUTUBE_API_KEY }}
+          VITE_YOUTUBE_PROXY_URL: "https://youtube-proxy-server-466107255470.asia-northeast1.run.app/api/search"
   
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
