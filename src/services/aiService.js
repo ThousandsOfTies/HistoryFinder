@@ -1,10 +1,20 @@
-import { GoogleGenAI } from '@google/genai';
 import { mockDictionary } from '../data/mockDictionary';
 
-// Gemini API の初期化 (Viteの環境変数から取得)
-const ai = new GoogleGenAI({
-    apiKey: import.meta.env.VITE_GEMINI_API_KEY || ''
-});
+const PROXY_URL = import.meta.env.VITE_YOUTUBE_PROXY_URL?.replace('/api/search', '') || 'http://localhost:8085';
+
+const callGemini = async (prompt, model = 'gemini-2.5-flash') => {
+    const res = await fetch(`${PROXY_URL}/api/gemini`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model, prompt }),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    return data.text;
+};
 
 /**
  * AIから解説を取得し、同時にWikipediaから画像を引っ張ってくる非同期関数。
@@ -13,21 +23,17 @@ const ai = new GoogleGenAI({
  */
 export const getAiExplanation = async (keyword) => {
     try {
-        let aiText = "";
-        if (!import.meta.env.VITE_GEMINI_API_KEY) {
-            return {
-                text: mockDictionary[keyword] ? mockDictionary[keyword].description : "APIキー未設定",
-                imageUrl: null
-            };
-        }
-
         const prompt = `あなたは世界史の専門家です。以下の歴史用語について、その背景、因果関係、歴史的意義をわかりやすく300字程度で解説してください。できれば、関連する他の歴史用語を2〜3個用いてください。文中に登場した歴史用語は、必ず前後に角括弧を二重に付けて [[キーワード]] の形式で出力してください。\n\n歴史用語: ${keyword}`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
-        aiText = response.text;
+        let aiText;
+        try {
+            aiText = await callGemini(prompt);
+        } catch {
+            return {
+                text: mockDictionary[keyword]?.description ?? 'AI解説を取得できませんでした',
+                imageUrl: null,
+            };
+        }
 
         let imageUrl = null;
         try {
@@ -153,10 +159,6 @@ const convertToReactFlow = (causalData) => {
  */
 export const generateCausalChain = async (headline, description) => {
     try {
-        if (!import.meta.env.VITE_GEMINI_API_KEY) {
-            return { nodes: [], edges: [], title: 'APIキーが設定されていません' };
-        }
-
         const prompt = `あなたは世界史と現代国際政治の専門家です。
 以下のニュース見出しについて、この出来事がなぜ起きたのかを、歴史的因果関係のチェーン（TOC：制約条件の理論のロジックツリー形式）で説明してください。
 
@@ -206,11 +208,7 @@ ${description}
 - countryCodeは、そのノードの出来事に最も関連する国のISO 3166-1 alpha-2コードを小文字で指定すること（例: us, gb, fr, de, it, ru, ua, il, ir, iq, sa, jp, cn, kr, in, tr, eg, sy, lb）。特定の国に関連しない場合はnullにすること。
 - JSON以外の付帯テキストは一切出力しないこと。`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
-        const text = response.text;
+        const text = await callGemini(prompt);
 
         // JSONブロックを抽出
         const jsonMatch = text.match(/```json\s*([\s\S]*?)```/);

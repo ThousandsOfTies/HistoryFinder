@@ -2,6 +2,40 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { getAiExplanation, generateCausalChain } from '../services/aiService';
 
 /**
+ * @typedef {'node'|'graph'|'dict'|'causal'} PanelType
+ *
+ * @typedef {object} NodePanel
+ * @property {'node'} type
+ * @property {string} id
+ * @property {object} data - ReactFlowノードオブジェクト
+ *
+ * @typedef {object} GraphPanel
+ * @property {'graph'} type
+ * @property {string} id
+ * @property {string} subGraphId
+ * @property {string} label
+ * @property {object} nodeData
+ *
+ * @typedef {object} DictPanel
+ * @property {'dict'} type
+ * @property {string} id
+ * @property {string} keyword
+ * @property {boolean} loading
+ * @property {string} [text]
+ * @property {string|null} [imageUrl]
+ *
+ * @typedef {object} CausalPanel
+ * @property {'causal'} type
+ * @property {string} id
+ * @property {string} title
+ * @property {boolean} loading
+ * @property {Array} [causalNodes]
+ * @property {Array} [causalEdges]
+ *
+ * @typedef {NodePanel|GraphPanel|DictPanel|CausalPanel} Panel
+ */
+
+/**
  * パネル管理ロジックを集約したカスタムフック。
  *
  * 管理する責務:
@@ -84,25 +118,25 @@ export const usePanelManager = () => {
 
     // キーワードリンク [[用語]] がクリックされた時の処理（AI解説取得）
     const handleKeywordClick = useCallback(async (keyword, sourcePanelIndex) => {
-        // まずローディング状態のパネルを積む
+        const panelId = `dict-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
         setPanels(prevPanels => {
             const newPanels = prevPanels.slice(0, sourcePanelIndex + 1);
-            newPanels.push({ type: 'dict', keyword, loading: true });
+            newPanels.push({ type: 'dict', keyword, loading: true, id: panelId });
             return newPanels;
         });
 
         // AIテキストと画像を同時に取得
         const aiData = await getAiExplanation(keyword);
 
-        // 取得完了後、該当のパネルを更新
-        setPanels(prevPanels => {
-            return prevPanels.map((panel, idx) => {
-                if (idx === sourcePanelIndex + 1 && panel.keyword === keyword) {
-                    return { ...panel, loading: false, text: aiData.text, imageUrl: aiData.imageUrl };
-                }
-                return panel;
-            });
-        });
+        // 取得完了後、ユニークIDで該当パネルを更新
+        setPanels(prevPanels =>
+            prevPanels.map(panel =>
+                panel.id === panelId
+                    ? { ...panel, loading: false, text: aiData.text, imageUrl: aiData.imageUrl }
+                    : panel
+            )
+        );
     }, []);
 
     // ニュース見出しから因果チェーンを生成する処理

@@ -17,8 +17,7 @@ const NodeDetailPanel = ({ panel, index, onClose, onKeywordClick }) => {
                 <p className="details">{renderTextWithLinks(data.details, index, onKeywordClick)}</p>
 
                 <div className="node-stats" style={{ marginTop: '16px' }}>
-                    <span className="badge">ID: {panel.data.id}</span>
-                    <span className="badge" style={{ marginLeft: '8px', background: '#374151' }}>
+                    <span className="badge" style={{ background: '#374151' }}>
                         Type: {data.type || panel.data.type}
                     </span>
                 </div>

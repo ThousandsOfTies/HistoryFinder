@@ -1,123 +1,80 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
 import { getLayoutedElements } from '../../utils/layoutEngine';
 import { handleWheelZoom } from '../../utils/zoomControl';
 import { nodeTypes, minZoomLevel, maxZoomLevel } from '../../constants/graphConfig';
 import TextArticleView from '../TextArticleView';
-
-// Level 2: 地域サブフロー
-import { europeNodes, europeEdges } from '../../data/europeSubflow';
-import { middleEastNodes, middleEastEdges } from '../../data/middleEastSubflow';
-import { indiaNodes, indiaEdges } from '../../data/indiaSubflow';
-import { chinaNodes, chinaEdges } from '../../data/chinaSubflow';
-
-// Level 2: 近現代サブフロー
-import { revolutionNodes, revolutionEdges } from '../../data/revolutionScenario';
-import { imperialismNodes, imperialismEdges } from '../../data/imperialismScenario';
-import { modernMiddleEastNodes, modernMiddleEastEdges } from '../../data/modernMiddleEastScenario';
-import { modernChinaNodes, modernChinaEdges } from '../../data/modernChinaScenario';
-import { contemporaryNodes, contemporaryEdges } from '../../data/contemporaryScenario';
-
-// Level 2/3: 既存シナリオ
-import { macroNodes as medievalNodes, macroEdges as medievalEdges } from '../../data/medievalScenario';
-import { modernNodes, modernEdges } from '../../data/modernScenario';
-import { discoveryNodes, discoveryEdges } from '../../data/discoveryScenario';
-import { ottomanNodes, ottomanEdges } from '../../data/ottomanScenario';
-import { mughalNodes, mughalEdges } from '../../data/mughalScenario';
-import { qingNodes, qingEdges } from '../../data/qingScenario';
-import { turkicNodes, turkicEdges } from '../../data/turkicScenario';
-import { indiaIslamicNodes, indiaIslamicEdges } from '../../data/indiaIslamicScenario';
-import { originNodes, originEdges } from '../../data/originScenario';
-import { frankishNodes, frankishEdges } from '../../data/frankishScenario';
-import { orientNodes, orientEdges } from '../../data/orientScenario';
-import { islamicEmpireNodes, islamicEmpireEdges } from '../../data/islamicEmpireScenario';
-import { ancientIndiaNodes, ancientIndiaEdges } from '../../data/ancientIndiaScenario';
-import { qinHanNodes, qinHanEdges } from '../../data/qinHanScenario';
-import { suiTangNodes, suiTangEdges } from '../../data/suiTangScenario';
-import { songYuanNodes, songYuanEdges } from '../../data/songYuanScenario';
-import { grecoRomanNodes, grecoRomanEdges } from '../../data/grecoRomanScenario';
-import { mesopotamiaNodes, mesopotamiaEdges } from '../../data/mesopotamiaScenario';
-import { crusadesNodes, crusadesEdges } from '../../data/crusadesScenario';
-import { navigationNodes, navigationEdges } from '../../data/navigationScenario';
-import { industrialRevNodes, industrialRevEdges } from '../../data/industrialRevScenario';
-import { nationStateNodes, nationStateEdges } from '../../data/nationStateScenario';
-import { developmentGapNodes, developmentGapEdges } from '../../data/developmentGapScenario';
-import { modernIndiaNodes, modernIndiaEdges } from '../../data/modernIndiaScenario';
-import { parthiaNodes, parthiaEdges } from '../../data/parthiaScenario';
-import { liberalismNodes, liberalismEdges } from '../../data/liberalismScenario';
-import { communismNodes, communismEdges } from '../../data/communismScenario';
-import { ussrNodes, ussrEdges } from '../../data/ussrScenario';
-
-
-
-
-// サブグラフIDとデータのマッピング
-const subGraphMap = {
-    // Level 2: 地域
-    europe: { nodes: europeNodes, edges: europeEdges },
-    middle_east: { nodes: middleEastNodes, edges: middleEastEdges },
-    india: { nodes: indiaNodes, edges: indiaEdges },
-    china: { nodes: chinaNodes, edges: chinaEdges },
-    // Level 2: 近現代
-    revolution: { nodes: revolutionNodes, edges: revolutionEdges },
-    imperialism: { nodes: imperialismNodes, edges: imperialismEdges },
-    modern_mideast: { nodes: modernMiddleEastNodes, edges: modernMiddleEastEdges },
-    modern_china: { nodes: modernChinaNodes, edges: modernChinaEdges },
-    contemporary: { nodes: contemporaryNodes, edges: contemporaryEdges },
-    // Level 2/3: 既存シナリオ
-    medieval_modern: { nodes: medievalNodes, edges: medievalEdges },
-    modern: { nodes: modernNodes, edges: modernEdges },
-    discovery: { nodes: discoveryNodes, edges: discoveryEdges },
-    ottoman: { nodes: ottomanNodes, edges: ottomanEdges },
-    mughal: { nodes: mughalNodes, edges: mughalEdges },
-    qing: { nodes: qingNodes, edges: qingEdges },
-    turkic: { nodes: turkicNodes, edges: turkicEdges },
-    india_islamic: { nodes: indiaIslamicNodes, edges: indiaIslamicEdges },
-    origin: { nodes: originNodes, edges: originEdges },
-    frankish: { nodes: frankishNodes, edges: frankishEdges },
-    orient: { nodes: orientNodes, edges: orientEdges },
-    islamic_empire: { nodes: islamicEmpireNodes, edges: islamicEmpireEdges },
-    ancient_india: { nodes: ancientIndiaNodes, edges: ancientIndiaEdges },
-    qin_han: { nodes: qinHanNodes, edges: qinHanEdges },
-    sui_tang: { nodes: suiTangNodes, edges: suiTangEdges },
-    song_yuan: { nodes: songYuanNodes, edges: songYuanEdges },
-    greco_roman: { nodes: grecoRomanNodes, edges: grecoRomanEdges },
-    mesopotamia: { nodes: mesopotamiaNodes, edges: mesopotamiaEdges },
-    crusades: { nodes: crusadesNodes, edges: crusadesEdges },
-    navigation: { nodes: navigationNodes, edges: navigationEdges },
-    industrial_rev: { nodes: industrialRevNodes, edges: industrialRevEdges },
-    nation_state: { nodes: nationStateNodes, edges: nationStateEdges },
-    development_gap: { nodes: developmentGapNodes, edges: developmentGapEdges },
-    modern_india: { nodes: modernIndiaNodes, edges: modernIndiaEdges },
-    parthia: { nodes: parthiaNodes, edges: parthiaEdges },
-    liberalism: { nodes: liberalismNodes, edges: liberalismEdges },
-    communism: { nodes: communismNodes, edges: communismEdges },
-    ussr: { nodes: ussrNodes, edges: ussrEdges },
-};
-
-
-
+import { subGraphLoader } from '../../data/subGraphLoader';
 
 // サブグラフ（詳細フロー）コンポーネント
-const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, handleGraphPaneClick }) => {
+// データはノードクリック時に動的インポートで遅延ロードする
+const SubGraphPanel = ({ panel, index, onClose, onNodeClick, onPaneClick }) => {
     const { subGraphId, label } = panel;
 
-    const data = subGraphMap[subGraphId] || { nodes: [], edges: [] };
-    const subNodes = data.nodes;
-    const subEdges = data.edges;
-
-    // フロー表示ができるか（エッジがあるか）どうかでデフォルトモードとトグル有効性を決定
-    const canShowFlow = subEdges && subEdges.length > 0;
-    const initialMode = canShowFlow ? 'flow' : 'text';
-
     const [rfInstance, setRfInstance] = useState(null);
-    const [viewMode, setViewMode] = useState(initialMode);
+    const [subNodes, setSubNodes] = useState([]);
+    const [subEdges, setSubEdges] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [viewMode, setViewMode] = useState('flow');
 
-    // React.useMemo で計算結果をキャッシュ
+    // subGraphId が変わるたびに対応するデータを動的ロード
+    useEffect(() => {
+        let cancelled = false;
+        setLoading(true);
+
+        const loader = subGraphLoader[subGraphId];
+        if (!loader) {
+            setSubNodes([]);
+            setSubEdges([]);
+            setViewMode('text');
+            setLoading(false);
+            return;
+        }
+
+        loader()
+            .then(data => {
+                if (cancelled) return;
+                setSubNodes(data.nodes);
+                setSubEdges(data.edges);
+                // エッジがなければテキストモードをデフォルトにする
+                setViewMode(data.edges.length > 0 ? 'flow' : 'text');
+                setLoading(false);
+            })
+            .catch(err => {
+                if (cancelled) return;
+                console.error('Failed to load subgraph:', subGraphId, err);
+                setSubNodes([]);
+                setSubEdges([]);
+                setViewMode('text');
+                setLoading(false);
+            });
+
+        // アンマウント時にキャンセルして、遅延した setState を無視する
+        return () => { cancelled = true; };
+    }, [subGraphId]);
+
+    const canShowFlow = !loading && subEdges.length > 0;
+
     const { layoutedNodes, layoutedEdges } = useMemo(
         () => getLayoutedElements(subNodes, subEdges),
         [subNodes, subEdges]
     );
+
+    // ローディング中
+    if (loading) {
+        return (
+            <div className="panel" style={{ width: '50vw' }}>
+                <div className="panel-content" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <div className="panel-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <h2 style={{ margin: 0 }}>{label} (詳細フロー)</h2>
+                        <button className="panel-close-btn" onClick={() => onClose(index)} title="閉じる">×</button>
+                    </div>
+                    <div className="divider" style={{ margin: '10px 0' }}></div>
+                    <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', marginTop: '3rem' }}>読み込み中...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="panel" style={{ width: '50vw' }}>
@@ -159,7 +116,7 @@ const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, h
                             </button>
                         </div>
                     </div>
-                    <button className="panel-close-btn" onClick={() => handleClosePanel(index)} title="閉じる">×</button>
+                    <button className="panel-close-btn" onClick={() => onClose(index)} title="閉じる">×</button>
                 </div>
                 <div className="divider" style={{ margin: '10px 0' }}></div>
 
@@ -173,8 +130,8 @@ const SubGraphPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, h
                             edges={layoutedEdges}
                             nodeTypes={nodeTypes}
                             onInit={setRfInstance}
-                            onNodeClick={(e, node) => handleGraphNodeClick(e, node, index)}
-                            onPaneClick={() => handleGraphPaneClick(index)}
+                            onNodeClick={(e, node) => onNodeClick(e, node, index)}
+                            onPaneClick={() => onPaneClick(index)}
                             fitView
                             minZoom={minZoomLevel}
                             maxZoom={maxZoomLevel}

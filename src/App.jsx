@@ -23,6 +23,7 @@ import NodeDetailPanel from './components/panels/NodeDetailPanel';
 import DictPanel from './components/panels/DictPanel';
 import NewsFeedPanel from './components/panels/NewsFeedPanel';
 import CausalChainPanel from './components/panels/CausalChainPanel';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   // アプリモード: 'classic'（歴史マップ） or 'news'（ニュース）
@@ -61,50 +62,55 @@ function App() {
 
   // パネルの描画
   const renderPanel = (panel, index) => {
-    if (panel.type === 'node') {
-      return (
-        <NodeDetailPanel
-          key={`node-${panel.data.id}-${index}`}
-          panel={panel}
-          index={index}
-          onClose={handleClosePanel}
-          onKeywordClick={handleKeywordClick}
-        />
-      );
-    } else if (panel.type === 'graph') {
-      return (
-        <SubGraphPanel
-          key={`graph-${panel.subGraphId}-${index}`}
-          panel={panel}
-          index={index}
-          handleClosePanel={handleClosePanel}
-          handleGraphNodeClick={handleGraphNodeClick}
-          handleGraphPaneClick={handleGraphPaneClick}
-        />
-      );
-    } else if (panel.type === 'dict') {
-      return (
-        <DictPanel
-          key={`dict-${panel.keyword}-${index}`}
-          panel={panel}
-          index={index}
-          onClose={handleClosePanel}
-          onKeywordClick={handleKeywordClick}
-        />
-      );
-    } else if (panel.type === 'causal') {
-      return (
-        <CausalChainPanel
-          key={`causal-${panel.title}-${index}`}
-          panel={panel}
-          index={index}
-          handleClosePanel={handleClosePanel}
-          handleGraphNodeClick={handleGraphNodeClick}
-          handleGraphPaneClick={handleGraphPaneClick}
-        />
-      );
-    }
-    return null;
+    const content = (() => {
+      if (panel.type === 'node') {
+        return (
+          <NodeDetailPanel
+            panel={panel}
+            index={index}
+            onClose={handleClosePanel}
+            onKeywordClick={handleKeywordClick}
+          />
+        );
+      } else if (panel.type === 'graph') {
+        return (
+          <SubGraphPanel
+            panel={panel}
+            index={index}
+            onClose={handleClosePanel}
+            onNodeClick={handleGraphNodeClick}
+            onPaneClick={handleGraphPaneClick}
+          />
+        );
+      } else if (panel.type === 'dict') {
+        return (
+          <DictPanel
+            panel={panel}
+            index={index}
+            onClose={handleClosePanel}
+            onKeywordClick={handleKeywordClick}
+          />
+        );
+      } else if (panel.type === 'causal') {
+        return (
+          <CausalChainPanel
+            panel={panel}
+            index={index}
+            onClose={handleClosePanel}
+            onNodeClick={handleGraphNodeClick}
+            onPaneClick={handleGraphPaneClick}
+          />
+        );
+      }
+      return null;
+    })();
+
+    if (!content) return null;
+    return (
+      <ErrorBoundary key={`panel-${index}`} onClose={() => handleClosePanel(index)}>
+        {content}
+      </ErrorBoundary>
+    );
   };
 
   return (

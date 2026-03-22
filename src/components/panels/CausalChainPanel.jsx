@@ -8,7 +8,7 @@ import { nodeTypes, minZoomLevel, maxZoomLevel } from '../../constants/graphConf
  * AI生成された因果関係チェーンを ReactFlow で描画するパネル。
  * SubGraphPanel と同じ構造だが、データがAI生成JSONから動的に来る。
  */
-const CausalChainPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick, handleGraphPaneClick }) => {
+const CausalChainPanel = ({ panel, index, onClose, onNodeClick, onPaneClick }) => {
     const [rfInstance, setRfInstance] = useState(null);
     const { causalNodes, causalEdges, title } = panel;
 
@@ -25,7 +25,7 @@ const CausalChainPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick
                 <div className="panel-content">
                     <div className="panel-header">
                         <h2>📰 因果関係を分析中...</h2>
-                        <button className="panel-close-btn" onClick={() => handleClosePanel(index)} title="閉じる">×</button>
+                        <button className="panel-close-btn" onClick={() => onClose(index)} title="閉じる">×</button>
                     </div>
                     <div className="divider" style={{ background: 'linear-gradient(90deg, #f59e0b, transparent)' }}></div>
                     <div className="causal-loading">
@@ -43,7 +43,7 @@ const CausalChainPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick
             <div className="panel-content" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <div className="panel-header">
                     <h2>{title || '因果関係マップ'}</h2>
-                    <button className="panel-close-btn" onClick={() => handleClosePanel(index)} title="閉じる">×</button>
+                    <button className="panel-close-btn" onClick={() => onClose(index)} title="閉じる">×</button>
                 </div>
                 <div className="divider" style={{ background: 'linear-gradient(90deg, #f59e0b, transparent)' }}></div>
                 <div
@@ -55,8 +55,8 @@ const CausalChainPanel = ({ panel, index, handleClosePanel, handleGraphNodeClick
                         edges={layoutedEdges}
                         nodeTypes={nodeTypes}
                         onInit={setRfInstance}
-                        onNodeClick={(e, node) => handleGraphNodeClick(e, node, index)}
-                        onPaneClick={() => handleGraphPaneClick(index)}
+                        onNodeClick={(e, node) => onNodeClick(e, node, index)}
+                        onPaneClick={() => onPaneClick(index)}
                         fitView
                         minZoom={minZoomLevel}
                         maxZoom={maxZoomLevel}

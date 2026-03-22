@@ -2,23 +2,31 @@
  * BBC と The New York Times (NYT) のニュースフィードを並行取得し、
  * 統合してGemini APIで日本語に一括翻訳するサービス。
  */
-import { GoogleGenAI } from '@google/genai';
 
 const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json';
 const BBC_WORLD_RSS = 'https://feeds.bbci.co.uk/news/world/rss.xml';
 const NYT_WORLD_RSS = 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml';
 
-// Gemini API (翻訳用)
-const ai = new GoogleGenAI({
-    apiKey: import.meta.env.VITE_GEMINI_API_KEY || ''
-});
+// プロキシ経由でGemini APIを呼び出す
+const PROXY_URL = import.meta.env.VITE_YOUTUBE_PROXY_URL?.replace('/api/search', '') || 'http://localhost:8085';
+
+const callGemini = async (prompt) => {
+    const res = await fetch(`${PROXY_URL}/api/gemini`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'gemini-2.5-flash', prompt }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.text;
+};
 
 /**
  * ニュース記事の title と description を Gemini で日本語に一括翻訳する。
  */
 const translateNews = async (items) => {
-    if (!import.meta.env.VITE_GEMINI_API_KEY || items.length === 0) {
-        return items; // APIキーなしならそのまま返す
+    if (items.length === 0) {
+        return items;
     }
 
     try {
@@ -49,11 +57,7 @@ const translateNews = async (items) => {
 ## 翻訳対象
 ${lines}`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
-        const text = response.text;
+        const text = await callGemini(prompt);
 
         // JSONブロックを抽出
         const jsonMatch = text.match(/```json\s*([\s\S]*?)```/);
