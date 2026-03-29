@@ -1,5 +1,6 @@
 import LogicNode from '../components/nodes/LogicNode';
 import HistoryNode from '../components/nodes/HistoryNode';
+import PipelineNode from '../components/nodes/PipelineNode';
 
 // ノードのレイアウト計算に使用するデフォルトサイズ
 export const nodeWidth = 380;
@@ -23,4 +24,9 @@ export const iconMap = {
 export const nodeTypes = {
     logic: LogicNode,
     history: HistoryNode,
+};
+
+// 文明ビルドパイプライン専用ノードタイプ
+export const pipelineNodeTypes = {
+    pipeline: PipelineNode,
 };

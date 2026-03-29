@@ -30,6 +30,12 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
                     📖 世界史
                 </button>
                 <button
+                    className={`mode-tab mode-tab--civbuild ${mode === 'civbuild' ? 'active' : ''}`}
+                    onClick={() => onModeChange('civbuild')}
+                >
+                    🏗️ 文明ビルド
+                </button>
+                <button
                     className={`mode-tab mode-tab--civos ${mode === 'civos' ? 'active' : ''}`}
                     onClick={() => onModeChange('civos')}
                 >
@@ -48,7 +54,7 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
             {/* パンくずリスト */}
             <div className="breadcrumbs">
                 <div className="breadcrumb-item home" onClick={() => onBreadcrumbClick(-1)}>
-                    {mode === 'classic' ? '🌎 全体図' : mode === 'civos' ? '⚙️ CivOS ニュース' : '📰 今日のニュース'}
+                    {mode === 'classic' ? '🌎 全体図' : mode === 'civbuild' ? '🏗️ Build Pipeline' : mode === 'civos' ? '⚙️ CivOS ニュース' : '📰 今日のニュース'}
                 </div>
 
                 {panels.map((panel, index) => {

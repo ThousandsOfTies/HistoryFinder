@@ -24,6 +24,7 @@ import DictPanel from './components/panels/DictPanel';
 import NewsFeedPanel from './components/panels/NewsFeedPanel';
 import CausalChainPanel from './components/panels/CausalChainPanel';
 import TechNotePanel from './components/panels/TechNotePanel';
+import CivBuildPipelineView from './components/CivBuildPipelineView';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
@@ -156,6 +157,11 @@ function App() {
               <Background color="#ccc" gap={16} />
               <Controls />
             </ReactFlow>
+          </div>
+        ) : mode === 'civbuild' ? (
+          /* 文明ビルドモード: 6ノードDAG */
+          <div className="civbuild-wrapper">
+            <CivBuildPipelineView />
           </div>
         ) : mode === 'civos' ? (
           /* CivOSモード: 数学史 × ニュース解析 */
