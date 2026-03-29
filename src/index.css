@@ -913,6 +913,36 @@ html {
   font-weight: bold;
 }
 
+/* Phase legend */
+.civbuild-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding: 0.6rem 2rem;
+  background: #080e1a;
+  border-bottom: 1px solid #1e293b;
+  flex-shrink: 0;
+}
+
+.civbuild-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.civbuild-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.civbuild-legend-label {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
 /* Main area */
 .civbuild-main {
   flex: 1;
@@ -967,12 +997,29 @@ html {
 
 .civbuild-detail-close:hover { color: #9ca3af; }
 
-.civbuild-detail-step {
+.civbuild-detail-phase {
   font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
   font-size: 0.7rem;
-  color: #4b5563;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 2px 8px;
+  display: inline-block;
   margin-bottom: 0.75rem;
+  opacity: 0.85;
+}
+
+.civbuild-detail-era {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+}
+
+.civbuild-dep-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .civbuild-detail-icon {
@@ -1103,7 +1150,8 @@ html {
 
 /* Pipeline Node card */
 .pipeline-node {
-  width: 160px;
+  width: 180px;
+  min-height: 90px;
   background: #0d1424;
   border: 1px solid var(--node-border, #374151);
   border-top: 3px solid var(--node-color, #6b7280);

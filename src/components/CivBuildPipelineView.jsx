@@ -1,88 +1,109 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import ReactFlow, { Background, Controls } from 'reactflow';
 import { buildPipelineGraph } from '../data/civBuildPipeline';
+import { getPipelineLayout } from '../utils/layoutEngine';
 import { pipelineNodeTypes } from '../constants/graphConfig';
 import { handleWheelZoom } from '../utils/zoomControl';
 
-const { nodes: initialNodes, edges: initialEdges } = buildPipelineGraph();
+const { pipelineNodes: rawNodes, pipelineEdges: rawEdges } = buildPipelineGraph();
+const { layoutedNodes: initialNodes, layoutedEdges: initialEdges } = getPipelineLayout(rawNodes, rawEdges);
+
+// フェーズカラーマップ
+const PHASE_COLORS = {
+  1: { color: '#0ea5e9', label: 'Phase 1: データのデジタル化' },
+  2: { color: '#10b981', label: 'Phase 2: 並列化と最適化' },
+  3: { color: '#f59e0b', label: 'Phase 3: 未来のハックと次元拡張' },
+  4: { color: '#f97316', label: 'Phase 4: 不確実性のデータ化' },
+  5: { color: '#14b8a6', label: 'Phase 5: 資本の集積と次世代R&D' },
+};
 
 /**
  * 文明ビルドパイプライン ビュー
- * 6ノードのDAGを横方向に描画し、ノードクリックで詳細パネルを表示する。
+ * 11ノードの縦方向DAGを描画し、ノードクリックで詳細パネルを表示する。
  */
 const CivBuildPipelineView = () => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [rfInstance, setRfInstance] = useState(null);
 
-  const handleNodeClick = useCallback((_e, node) => {
-    setSelectedNode(node.data);
-  }, []);
-
-  const handlePaneClick = useCallback(() => {
-    setSelectedNode(null);
-  }, []);
+  const phaseInfo = useMemo(() => selectedNode ? PHASE_COLORS[selectedNode.phase] : null, [selectedNode]);
 
   return (
     <div className="civbuild-container">
       {/* ヘッダー */}
       <div className="civbuild-header">
         <div className="civbuild-header-title">
-          <span className="civbuild-title-badge">$ civilization build --pipeline</span>
+          <span className="civbuild-title-badge">$ civilization build --dag --direction=TB</span>
           <h2 className="civbuild-title">Civilization Build Pipeline</h2>
-          <p className="civbuild-subtitle">数学が文明をコンパイルした依存関係グラフ（DAG）</p>
+          <p className="civbuild-subtitle">数学が文明をコンパイルした依存関係グラフ（DAG）— ノードをクリックで詳細表示</p>
         </div>
         <div className="civbuild-header-meta">
-          <span className="civbuild-meta-item"><span className="civbuild-meta-label">nodes</span> 6</span>
-          <span className="civbuild-meta-item"><span className="civbuild-meta-label">edges</span> 5</span>
+          <span className="civbuild-meta-item"><span className="civbuild-meta-label">nodes</span> 11</span>
+          <span className="civbuild-meta-item"><span className="civbuild-meta-label">phases</span> 5</span>
           <span className="civbuild-meta-item"><span className="civbuild-meta-label">status</span> <span className="civbuild-status-ok">DEPLOYED</span></span>
         </div>
+      </div>
+
+      {/* フェーズ凡例 */}
+      <div className="civbuild-legend">
+        {Object.entries(PHASE_COLORS).map(([phase, info]) => (
+          <div key={phase} className="civbuild-legend-item">
+            <span className="civbuild-legend-dot" style={{ background: info.color }}></span>
+            <span className="civbuild-legend-label">{info.label}</span>
+          </div>
+        ))}
       </div>
 
       {/* グラフ + 詳細パネル */}
       <div className="civbuild-main">
         {/* ReactFlow グラフ */}
         <div
-          className={`civbuild-graph ${selectedNode ? 'has-detail' : ''}`}
+          className="civbuild-graph"
           onWheelCapture={(e) => handleWheelZoom(e, rfInstance)}
         >
           <ReactFlow
             nodes={initialNodes}
             edges={initialEdges}
             nodeTypes={pipelineNodeTypes}
-            onNodeClick={handleNodeClick}
-            onPaneClick={handlePaneClick}
+            onNodeClick={(_e, node) => setSelectedNode(node.data)}
+            onPaneClick={() => setSelectedNode(null)}
             onInit={setRfInstance}
             fitView
-            fitViewOptions={{ padding: 0.3 }}
-            minZoom={0.3}
+            fitViewOptions={{ padding: 0.2 }}
+            minZoom={0.2}
             maxZoom={2.0}
             attributionPosition="bottom-left"
             nodesDraggable={false}
             nodesConnectable={false}
           >
-            <Background color="#1f2937" gap={24} size={1} />
+            <Background color="#111827" gap={24} size={1} />
             <Controls />
           </ReactFlow>
-
-          {!selectedNode && (
-            <div className="civbuild-hint">
-              ノードをクリックすると詳細が表示されます
-            </div>
-          )}
         </div>
 
         {/* 詳細パネル */}
         {selectedNode && (
-          <div className="civbuild-detail" style={{ '--node-color': selectedNode.color, '--node-border': selectedNode.borderColor, '--node-glow': selectedNode.glowColor }}>
+          <div
+            className="civbuild-detail"
+            style={{
+              '--node-color': selectedNode.color,
+              '--node-border': selectedNode.borderColor,
+              '--node-glow': selectedNode.glowColor,
+            }}
+          >
             <button className="civbuild-detail-close" onClick={() => setSelectedNode(null)}>×</button>
 
-            {/* ステップバッジ */}
-            <div className="civbuild-detail-step">STEP {selectedNode.step} / 6</div>
+            {/* フェーズバッジ */}
+            {phaseInfo && (
+              <div className="civbuild-detail-phase" style={{ color: phaseInfo.color, borderColor: phaseInfo.color }}>
+                {phaseInfo.label}
+              </div>
+            )}
 
             {/* タイトル */}
             <div className="civbuild-detail-icon">{selectedNode.icon}</div>
             <h3 className="civbuild-detail-title">{selectedNode.label}</h3>
             <div className="civbuild-detail-sublabel">{selectedNode.sublabel}</div>
+            <div className="civbuild-detail-era">🕐 {selectedNode.era}</div>
 
             <div className="civbuild-detail-divider"></div>
 
@@ -120,10 +141,14 @@ const CivBuildPipelineView = () => {
             </div>
 
             {/* 依存関係 */}
-            {selectedNode.dependency && (
+            {selectedNode.dependencies && selectedNode.dependencies.length > 0 && (
               <div className="civbuild-detail-section">
                 <div className="civbuild-section-label">DEPENDS ON</div>
-                <div className="civbuild-dep-badge">{selectedNode.dependency}</div>
+                <div className="civbuild-dep-list">
+                  {selectedNode.dependencies.map(dep => (
+                    <span key={dep} className="civbuild-dep-badge">{dep}</span>
+                  ))}
+                </div>
               </div>
             )}
 

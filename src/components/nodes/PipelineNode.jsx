@@ -15,7 +15,7 @@ const PipelineNode = ({ data, selected }) => {
         '--node-glow': data.glowColor,
       }}
     >
-      <Handle type="target" position={Position.Left} className="pipeline-handle" />
+      <Handle type="target" position={Position.Top} className="pipeline-handle" />
 
       <div className="pipeline-node-step">STEP {data.step}</div>
 
@@ -28,7 +28,7 @@ const PipelineNode = ({ data, selected }) => {
 
       <div className="pipeline-node-version">{data.version}</div>
 
-      <Handle type="source" position={Position.Right} className="pipeline-handle" />
+      <Handle type="source" position={Position.Bottom} className="pipeline-handle" />
     </div>
   );
 };

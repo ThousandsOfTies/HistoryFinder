@@ -85,3 +85,42 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 
     return { layoutedNodes, layoutedEdges: edges };
 };
+
+/**
+ * 文明ビルドパイプライン専用のDagreレイアウト関数。
+ * getLayoutedElements と異なり、ノードタイプを 'pipeline' のまま保持する。
+ * @param {Array} nodes - buildPipelineGraph() が返す pipelineNodes
+ * @param {Array} edges - buildPipelineGraph() が返す pipelineEdges
+ * @returns {{ layoutedNodes: Array, layoutedEdges: Array }}
+ */
+export const getPipelineLayout = (nodes, edges) => {
+    const NODE_WIDTH = 180;
+    const NODE_HEIGHT = 100;
+
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+    dagreGraph.setGraph({ rankdir: 'TB', ranksep: 80, nodesep: 60 });
+
+    nodes.forEach((node) => {
+        dagreGraph.setNode(node.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
+    });
+
+    edges.forEach((edge) => {
+        dagreGraph.setEdge(edge.source, edge.target, { weight: 1, minlen: 1 });
+    });
+
+    dagre.layout(dagreGraph);
+
+    const layoutedNodes = nodes.map((node) => {
+        const nodeWithPosition = dagreGraph.node(node.id);
+        return {
+            ...node,
+            position: {
+                x: nodeWithPosition.x - NODE_WIDTH / 2,
+                y: nodeWithPosition.y - NODE_HEIGHT / 2,
+            },
+        };
+    });
+
+    return { layoutedNodes, layoutedEdges: edges };
+};
