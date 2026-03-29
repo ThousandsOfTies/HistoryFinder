@@ -1,8 +1,20 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 // アプリケーションヘッダー（モード切替 + パンくずリスト）
 const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
     const headerRef = useRef(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    // 外部クリックでドロップダウンを閉じる
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (!e.target.closest('.split-button-container')) {
+                setDropdownOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
 
     // パンくずが増えた時に右端まで自動スクロールする
     useEffect(() => {
@@ -15,7 +27,7 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
     }, [panels, mode]);
 
     return (
-        <header className="app-header" ref={headerRef}>
+        <header className="app-header">
             {/* ロゴとタイトル */}
             <div className="app-branding">
                 <img src="./historyfinder_logo.png" alt="HistoryFinder Logo" className="header-logo" />
@@ -23,24 +35,33 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
 
             {/* モード切替タブ */}
             <div className="mode-tabs">
-                <button
-                    className={`mode-tab ${mode === 'classic' ? 'active' : ''}`}
-                    onClick={() => onModeChange('classic')}
-                >
-                    📖 世界史
-                </button>
-                <button
-                    className={`mode-tab mode-tab--civbuild ${mode === 'civbuild' ? 'active' : ''}`}
-                    onClick={() => onModeChange('civbuild')}
-                >
-                    🏗️ 文明ビルド
-                </button>
-                <button
-                    className={`mode-tab mode-tab--civos ${mode === 'civos' ? 'active' : ''}`}
-                    onClick={() => onModeChange('civos')}
-                >
-                    ⚙️ 数学史
-                </button>
+                {/* スプリットボタン (歴史マップ) */}
+                <div className={`split-button-container ${mode === 'classic' || mode === 'civbuild' ? 'active' : ''}`}>
+                    <button
+                        className={`split-btn split-btn-main ${mode === 'classic' || mode === 'civbuild' ? 'active' : ''}`}
+                        onClick={() => { onModeChange('classic'); setDropdownOpen(false); }}
+                    >
+                        🌎 歴史マップ
+                    </button>
+                    <button
+                        className={`split-btn split-btn-toggle ${dropdownOpen ? 'active-dropdown' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); setDropdownOpen(!dropdownOpen); }}
+                    >
+                        ▼
+                    </button>
+                    
+                    {dropdownOpen && (
+                        <div className="dropdown-menu">
+                            <div className={`dropdown-item ${mode === 'classic' ? 'active' : ''}`} onClick={() => { onModeChange('classic'); setDropdownOpen(false); }}>
+                                🌎 世界史 (全体図)
+                            </div>
+                            <div className={`dropdown-item ${mode === 'civbuild' ? 'active' : ''}`} onClick={() => { onModeChange('civbuild'); setDropdownOpen(false); }}>
+                                🏗️ 文明ビルド (数学史)
+                            </div>
+                        </div>
+                    )}
+                </div>
+
                 <button
                     className={`mode-tab ${mode === 'news' ? 'active' : ''}`}
                     onClick={() => onModeChange('news')}
@@ -52,9 +73,9 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
             <span className="header-divider">|</span>
 
             {/* パンくずリスト */}
-            <div className="breadcrumbs">
+            <div className="breadcrumbs" ref={headerRef}>
                 <div className="breadcrumb-item home" onClick={() => onBreadcrumbClick(-1)}>
-                    {mode === 'classic' ? '🌎 全体図' : mode === 'civbuild' ? '🏗️ Build Pipeline' : mode === 'civos' ? '⚙️ CivOS ニュース' : '📰 今日のニュース'}
+                    {mode === 'classic' ? '🌎 全体図' : mode === 'civbuild' ? '🏗️ Build Pipeline' : '📰 今日のニュース'}
                 </div>
 
                 {panels.map((panel, index) => {

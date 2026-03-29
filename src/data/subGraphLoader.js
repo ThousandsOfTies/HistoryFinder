@@ -21,6 +21,14 @@ export const subGraphLoader = {
     modern_china:  () => import('./modernChinaScenario').then(m => ({ nodes: m.modernChinaNodes, edges: m.modernChinaEdges })),
     contemporary:  () => import('./contemporaryScenario').then(m => ({ nodes: m.contemporaryNodes, edges: m.contemporaryEdges })),
 
+    // Level 2: 数学史サブフロー
+    math_phase1:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase1Nodes, edges: m.mathPhase1Edges })),
+    math_phase2:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase2Nodes, edges: m.mathPhase2Edges })),
+    math_phase3:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase3Nodes, edges: m.mathPhase3Edges })),
+    math_phase4:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase4Nodes, edges: m.mathPhase4Edges })),
+    math_phase5:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase5Nodes, edges: m.mathPhase5Edges })),
+    math_phase6:   () => import('./mathSubflows').then(m => ({ nodes: m.mathPhase6Nodes, edges: m.mathPhase6Edges })),
+
     // Level 2/3: 既存シナリオ
     // medievalScenario は macroNodes/macroEdges という名前で export されているため注意
     medieval_modern: () => import('./medievalScenario').then(m => ({ nodes: m.macroNodes, edges: m.macroEdges })),

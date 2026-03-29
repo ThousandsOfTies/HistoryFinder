@@ -159,15 +159,14 @@ function App() {
             </ReactFlow>
           </div>
         ) : mode === 'civbuild' ? (
-          /* 文明ビルドモード: 6ノードDAG */
-          <div className="civbuild-wrapper">
-            <CivBuildPipelineView />
+          /* 文明ビルドモード: 数学史TOCロジックツリー */
+          <div className={`civbuild-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>
+            <CivBuildPipelineView
+              onNodeClick={(e, node) => handleGraphNodeClick(e, node, -1)}
+              onPaneClick={() => handleGraphPaneClick(-1)}
+            />
           </div>
-        ) : mode === 'civos' ? (
-          /* CivOSモード: 数学史 × ニュース解析 */
-          <div className={`news-panel-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>
-            <NewsFeedPanel onCivOsClick={handleCivOsClick} civOsMode />
-          </div>
+
         ) : (
           /* ニュースモード: BBC + NYT ニュース一覧 */
           <div className={`news-panel-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>

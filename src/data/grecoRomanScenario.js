@@ -11,7 +11,8 @@ export const grecoRomanNodes = [
         data: {
             label: '温暖な地中海ネットワーク\n(海上交易の発展)',
             type: 'context',
-            details: '[[地中海]]は波が比較的穏やかで、対岸に渡りやすいという地理的条件を備えていました。\n\nこのため、[[フェニキア]]人などの海洋民族によるオリーブやワインの海上交易ネットワークが早くから発達し、後に続くギリシアのポリスやローマ帝国がその恩恵とインフラを受け継ぎました。'
+            details: '[[地中海]]は波が比較的穏やかで、対岸に渡りやすいという地理的条件を備えていました。\n\nこのため、[[フェニキア]]人などの海洋民族によるオリーブやワインの海上交易ネットワークが早くから発達し、後に続くギリシアのポリスやローマ帝国がその恩恵とインフラを受け継ぎました。',
+            iconUrl: '/icons/mediterranean_trade_anime.png'
         },
         style: { background: '#713f12', color: '#fff', border: '1px dashed #ca8a04', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -21,7 +22,8 @@ export const grecoRomanNodes = [
         data: {
             label: '鉄器の普及と\n重装歩兵(平民)の台頭',
             type: 'root_cause',
-            details: '安価な鉄器が普及したことで、貴族だけでなく一般の平民（農民）でも自費で武具を揃えられるようになりました。\n\n密集陣形（[[ファランクス]]）を組んで戦う平民たちが軍事力の主力となったことで、彼らはポリスの防衛に対する貢献を背景に、政治的権利（参政権）を強く要求するようになりました。'
+            details: '安価な鉄器が普及したことで、貴族だけでなく一般の平民（農民）でも自費で武具を揃えられるようになりました。\n\n密集陣形（[[ファランクス]]）を組んで戦う平民たちが軍事力の主力となったことで、彼らはポリスの防衛に対する貢献を背景に、政治的権利（参政権）を強く要求するようになりました。',
+            iconUrl: '/icons/hoplite_phalanx_anime.png'
         },
         style: { background: '#1e3a8a', color: '#fff', border: '2px solid #3b82f6', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -49,7 +51,8 @@ export const grecoRomanNodes = [
         data: {
             label: 'ローマによる地中海統一\n(法とインフラによる統治)',
             type: 'action',
-            details: 'イタリア半島の一都市国家から始まったローマは、共和政から帝政へと移行する過程でカルタゴなどを破り、地中海全域を「内海（我らが海）」として支配下に置きました。\n\nギリシアの人文主義的な文化を吸収しつつ、[[ローマ法]]（成文法）の整備や、街道・水道橋といった圧倒的なインフラ（建築工学）によって広大な帝国を合理的に統治し、「[[パクス・ロマーナ]]（ローマの平和）」を実現しました。'
+            details: 'イタリア半島の一都市国家から始まったローマは、共和政から帝政へと移行する過程でカルタゴなどを破り、地中海全域を「内海（我らが海）」として支配下に置きました。\n\nギリシアの人文主義的な文化を吸収しつつ、[[ローマ法]]（成文法）の整備や、街道・水道橋といった圧倒的なインフラ（建築工学）によって広大な帝国を合理的に統治し、「[[パクス・ロマーナ]]（ローマの平和）」を実現しました。',
+            iconUrl: '/icons/roman_empire_anime.png'
         },
         style: { background: '#059669', color: '#fff', border: '2px solid #10b981', borderRadius: '4px', width: 250, padding: '10px' }
     },
@@ -61,7 +64,7 @@ export const grecoRomanNodes = [
         data: {
             label: 'キリスト教の国教化\n(中世の精神的支柱)',
             type: 'result',
-            iconUrl: '/icons/result.png',
+            iconUrl: '/icons/christianity_state_anime.png',
             details: '当初は迫害されていた[[初期キリスト教|キリスト教]]ですが、帝国の衰退期になると、[[ミラノ勅令]]による公認を経て、最終的にテオドシウス帝のもとでローマ帝国の国教となりました。\n\nこれにより、古代の多神教文化は終わりを告げ、来る「中世ヨーロッパ世界」を精神的に支配する強大なキリスト教教会の基盤が整いました。'
         },
         style: { background: '#000000', color: '#fff', border: '2px solid #ec4899', borderRadius: '4px', width: 250, padding: '10px' }
@@ -72,7 +75,7 @@ export const grecoRomanNodes = [
         data: {
             label: 'ヨーロッパ文化の源流確立\n(次代への布石)',
             type: 'result',
-            iconUrl: '/icons/renaissance.png',
+            iconUrl: '/icons/classical_culture_anime.png',
             details: 'ギリシアの市民的・哲学的な精神と、ローマの法的・実践的なシステムは「[[古典古代|古典文化]]」として統合され、のちにフランク王国に引き継がれました。\n\nさらに数百年後、中世のキリスト教的価値観が行き詰まった際、ふたたびこのギリシア・ローマの「人間中心主義」への回帰を目指す「[[ルネサンス]]運動」の強烈な起爆剤となりました。'
         },
         style: { background: '#000000', color: '#fff', border: '2px solid #a855f7', borderRadius: '4px', width: 250, padding: '10px' }
