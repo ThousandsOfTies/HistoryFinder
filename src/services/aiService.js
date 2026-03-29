@@ -1,4 +1,5 @@
 import { mockDictionary } from '../data/mockDictionary';
+import { CIV_OS_FEATURES, localMatchFeatures } from '../data/civOsFeatures';
 
 const PROXY_URL = import.meta.env.VITE_YOUTUBE_PROXY_URL?.replace('/api/search', '') || 'http://localhost:8085';
 
@@ -14,6 +15,72 @@ const callGemini = async (prompt, model = 'gemini-2.5-flash') => {
     }
     const data = await res.json();
     return data.text;
+};
+
+/**
+ * ニューステキストからCivOS数学的Featureを解析し、エンジニア向けTech Noteを生成する。
+ * @param {string} headline - ニュースの見出し
+ * @param {string} description - ニュースの概要文
+ * @returns {Promise<{news_summary: string, related_features: string[], tech_meta_commentary: string}>}
+ */
+export const suggestFeatureByNews = async (headline, description) => {
+    const featureList = CIV_OS_FEATURES.map(f =>
+        `- id: "${f.id}", name: "${f.name}", era: "${f.releaseEra}", modern_mapping: [${f.modernNewsMapping.map(m => `"${m}"`).join(', ')}]`
+    ).join('\n');
+
+    const prompt = `あなたは「文明OS（CivOS）」の歴史アナリストです。
+以下のニュースを分析し、このニュースの背景にある数学的概念（CivOS Feature）を特定してください。
+
+## ニュース見出し
+${headline}
+
+## ニュース概要
+${description}
+
+## CivOS Feature一覧
+${featureList}
+
+## 出力フォーマット
+以下のJSON形式のみを出力してください。
+
+\`\`\`json
+{
+  "news_summary": "このニュースの本質を1文で（日本語、50字以内）",
+  "related_features": ["feature_id_1", "feature_id_2"],
+  "tech_meta_commentary": "このニュースをエンジニア・メタファーで解説するコメント（日本語、200字程度）。例：「このFeatureのデプロイにより、国家のスループットが向上しました」のような語り口で。システム用語（デプロイ、パッチ、バグ、リファクタ、マージ、スループット、etc.）を積極的に使用すること。"
+}
+\`\`\`
+
+## ルール
+- related_featuresは1〜3個まで。最も関連性の高いものを選ぶ。
+- 上記のFeature一覧に含まれるidのみを使用すること。
+- JSON以外の付帯テキストは一切出力しないこと。`;
+
+    try {
+        const text = await callGemini(prompt);
+        const jsonMatch = text.match(/```json\s*([\s\S]*?)```/);
+        let parsed;
+        if (jsonMatch) {
+            parsed = JSON.parse(jsonMatch[1]);
+        } else {
+            parsed = JSON.parse(text);
+        }
+        return {
+            news_summary: parsed.news_summary || headline,
+            related_features: (parsed.related_features || []).filter(id =>
+                CIV_OS_FEATURES.some(f => f.id === id)
+            ),
+            tech_meta_commentary: parsed.tech_meta_commentary || '',
+        };
+    } catch {
+        // AIが失敗した場合はローカルマッチングにフォールバック
+        const localMatches = localMatchFeatures(`${headline} ${description}`);
+        return {
+            news_summary: headline,
+            related_features: localMatches.slice(0, 2),
+            tech_meta_commentary: 'AI解析に失敗しました。ローカルキーワードマッチングによる結果を表示しています。',
+        };
+    }
 };
 
 /**

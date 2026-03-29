@@ -30,6 +30,12 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
                     📖 世界史
                 </button>
                 <button
+                    className={`mode-tab mode-tab--civos ${mode === 'civos' ? 'active' : ''}`}
+                    onClick={() => onModeChange('civos')}
+                >
+                    ⚙️ 数学史
+                </button>
+                <button
                     className={`mode-tab ${mode === 'news' ? 'active' : ''}`}
                     onClick={() => onModeChange('news')}
                 >
@@ -42,7 +48,7 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
             {/* パンくずリスト */}
             <div className="breadcrumbs">
                 <div className="breadcrumb-item home" onClick={() => onBreadcrumbClick(-1)}>
-                    {mode === 'classic' ? '🌎 全体図' : '📰 今日のニュース'}
+                    {mode === 'classic' ? '🌎 全体図' : mode === 'civos' ? '⚙️ CivOS ニュース' : '📰 今日のニュース'}
                 </div>
 
                 {panels.map((panel, index) => {
@@ -55,6 +61,8 @@ const Header = ({ mode, onModeChange, panels, onBreadcrumbClick }) => {
                         label = panel.label + ' (詳細)';
                     } else if (panel.type === 'causal') {
                         label = panel.loading ? '分析中...' : (panel.title || '因果関係');
+                    } else if (panel.type === 'techNote') {
+                        label = panel.loading ? '⚙️ 解析中...' : '⚙️ CivOS Update Log';
                     }
 
                     return (

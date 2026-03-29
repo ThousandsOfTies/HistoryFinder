@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { getAiExplanation, generateCausalChain } from '../services/aiService';
+import { getAiExplanation, generateCausalChain, suggestFeatureByNews } from '../services/aiService';
 
 /**
  * @typedef {'node'|'graph'|'dict'|'causal'} PanelType
@@ -139,6 +139,27 @@ export const usePanelManager = () => {
         );
     }, []);
 
+    // ニュースからCivOS数学的Featureを解析する処理
+    const handleCivOsClick = useCallback(async (headline, description) => {
+        setPanels([{ type: 'techNote', loading: true, headline }]);
+
+        const result = await suggestFeatureByNews(headline, description);
+
+        setPanels(prevPanels =>
+            prevPanels.map(panel =>
+                panel.type === 'techNote' && panel.loading && panel.headline === headline
+                    ? {
+                        ...panel,
+                        loading: false,
+                        news_summary: result.news_summary,
+                        related_features: result.related_features,
+                        tech_meta_commentary: result.tech_meta_commentary,
+                    }
+                    : panel
+            )
+        );
+    }, []);
+
     // ニュース見出しから因果チェーンを生成する処理
     const handleNewsClick = useCallback(async (headline, description) => {
         // 既存パネルを全てクリアしてからロード中パネルを追加
@@ -174,5 +195,6 @@ export const usePanelManager = () => {
         handleGraphPaneClick,
         handleKeywordClick,
         handleNewsClick,
+        handleCivOsClick,
     };
 };

@@ -479,6 +479,24 @@ html {
   font-weight: 600;
 }
 
+.mode-tab--civos {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  border-color: #1e3a5f;
+  color: #60a5fa;
+}
+
+.mode-tab--civos:hover {
+  color: #93c5fd;
+  background: #1e293b;
+  border-color: #3b82f6;
+}
+
+.mode-tab--civos.active {
+  color: #60a5fa;
+  background: #0f172a;
+  border-color: #3b82f6;
+}
+
 .header-divider {
   color: #374151;
   margin: 0 0.75rem;
@@ -528,6 +546,15 @@ html {
   height: 2px;
   background: linear-gradient(90deg, #f59e0b, transparent);
   margin: 1rem 0 1.5rem;
+}
+
+.news-feed-divider--civos {
+  background: linear-gradient(90deg, #3b82f6, transparent) !important;
+}
+
+.news-feed-panel--civos .news-feed-header h2 {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  color: #60a5fa;
 }
 
 .news-feed-loading,
@@ -599,6 +626,14 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.news-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .news-card-date {
@@ -626,6 +661,32 @@ html {
 }
 
 .news-analyze-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.news-civos-btn {
+  background: linear-gradient(135deg, #1e3a5f, #1d4ed8);
+  color: #bfdbfe;
+  border: 1px solid #3b82f6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.news-civos-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.news-civos-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -760,6 +821,403 @@ html {
   margin: 0 0.75rem 0.6rem;
   font-size: 0.75rem;
   color: #6b7280;
+}
+
+/* ==========================================
+   TechNote Panel (CivOS Analyzer)
+   ========================================== */
+.tech-note-divider {
+  background: linear-gradient(90deg, #3b82f6, transparent) !important;
+}
+
+.tech-note-title {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  color: #60a5fa !important;
+  font-size: 1.3rem !important;
+}
+
+.tech-note-title-loading {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  color: #6b7280 !important;
+  font-size: 1.3rem !important;
+}
+
+/* Loading console */
+.tech-note-loading {
+  padding: 2rem 0;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.9rem;
+}
+
+.tech-note-loading-console {
+  background: #0f172a;
+  border: 1px solid #1e3a5f;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #93c5fd;
+}
+
+.tech-note-loading-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #9ca3af;
+}
+
+.tech-note-loading-lines p {
+  margin: 0;
+}
+
+.tech-note-blink {
+  animation: blink 1.2s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Common text elements */
+.tech-note-prompt {
+  color: #4ade80;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+}
+
+.tech-note-cmd {
+  color: #93c5fd;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+}
+
+.tech-note-ok {
+  color: #4ade80;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.tech-note-warn {
+  color: #fbbf24;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.tech-note-running {
+  color: #60a5fa;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+}
+
+.tech-note-muted {
+  color: #6b7280 !important;
+  font-size: 0.85rem;
+}
+
+/* Label / Badge */
+.tech-note-label {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #6b7280;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tech-note-badge {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.75rem;
+  background: #1e3a5f;
+  color: #60a5fa;
+  border: 1px solid #3b82f6;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 0.75rem;
+}
+
+.tech-note-section-label {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* News summary */
+.tech-note-news-summary {
+  background: #0f172a;
+  border: 1px solid #1e3a5f;
+  border-left: 3px solid #3b82f6;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.tech-note-summary-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+/* No match */
+.tech-note-no-match {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  background: #0f172a;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.tech-note-no-match p {
+  margin: 0.25rem 0;
+}
+
+/* Feature Card */
+.tech-note-feature-card {
+  background: #0f172a;
+  border: 1px solid #1e3a5f;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.tech-note-feature-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.tech-note-feature-icon-lg {
+  font-size: 1.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.tech-note-feature-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.tech-note-version {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.75rem;
+  color: #4ade80;
+  background: #052e16;
+  border: 1px solid #166534;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.tech-note-feature-name {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+  color: #93c5fd;
+}
+
+.tech-note-feature-name-lg {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #60a5fa;
+}
+
+.tech-note-feature-tagline {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.tech-note-era-badge {
+  margin-left: auto;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.7rem;
+  color: #fbbf24;
+  background: #1c1208;
+  border: 1px solid #92400e;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Commit block */
+.tech-note-commit {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.8rem;
+}
+
+.tech-note-commit-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+  color: #e2e8f0;
+}
+
+.tech-note-commit-hash {
+  color: #fb923c;
+  flex-shrink: 0;
+}
+
+/* Bugs */
+.tech-note-bugs {
+  margin-bottom: 0.75rem;
+}
+
+.tech-note-bugs-label {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.35rem;
+}
+
+.tech-note-bug-item {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 0.2rem;
+}
+
+.tech-note-bug-icon {
+  color: #ef4444;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  flex-shrink: 0;
+}
+
+/* Optimization */
+.tech-note-optimization {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.tech-note-optimization-text {
+  color: #d1d5db;
+}
+
+/* Tech Note block */
+.tech-note-tech-note-block {
+  background: #0a0a0a;
+  border-left: 2px solid #4ade80;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.tech-note-tech-note-text {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+/* Tags */
+.tech-note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tech-note-tag {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.75rem;
+  background: #1e293b;
+  color: #64748b;
+  border: 1px solid #334155;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+/* Commentary */
+.tech-note-commentary {
+  margin-top: 0.5rem;
+}
+
+.tech-note-commentary-body {
+  background: #0f172a;
+  border: 1px solid #1e3a5f;
+  border-left: 3px solid #4ade80;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+/* Feature Timeline */
+.tech-note-timeline-section {
+  margin-top: 1.5rem;
+}
+
+.tech-note-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 0.5rem;
+  border-left: 2px solid #1e293b;
+  margin-left: 0.5rem;
+}
+
+.tech-note-timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0.5rem 0.75rem;
+  position: relative;
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+.tech-note-timeline-item.active {
+  opacity: 1;
+}
+
+.tech-note-timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #374151;
+  border: 2px solid #4b5563;
+  position: absolute;
+  left: -6px;
+  flex-shrink: 0;
+}
+
+.tech-note-timeline-item.active .tech-note-timeline-dot {
+  background: #3b82f6;
+  border-color: #60a5fa;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.tech-note-timeline-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 0.8rem;
+}
+
+.tech-note-feature-icon {
+  font-size: 1rem;
+}
+
+.tech-note-era {
+  color: #6b7280;
+  font-size: 0.75rem;
 }
 
 @keyframes spin {

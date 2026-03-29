@@ -5,11 +5,12 @@ import { fetchWorldNews } from '../../services/newsService';
  * ニュース一覧パネル。BBCワールドニュースを表示し、
  * 各ニュースの「歴史的背景を解説」ボタンで因果チェーン生成を起動する。
  */
-const NewsFeedPanel = ({ onNewsClick }) => {
+const NewsFeedPanel = ({ onNewsClick, onCivOsClick, civOsMode = false }) => {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [generatingId, setGeneratingId] = useState(null);
+    const [civOsGeneratingId, setCivOsGeneratingId] = useState(null);
 
     useEffect(() => {
         const load = async () => {
@@ -31,13 +32,28 @@ const NewsFeedPanel = ({ onNewsClick }) => {
         setGeneratingId(null);
     };
 
+    const handleCivOsClick = async (item, index) => {
+        setCivOsGeneratingId(index);
+        await onCivOsClick(item.title, item.description);
+        setCivOsGeneratingId(null);
+    };
+
     return (
-        <div className="news-feed-panel">
+        <div className={`news-feed-panel ${civOsMode ? 'news-feed-panel--civos' : ''}`}>
             <div className="news-feed-header">
-                <h2>📰 今日の国際ニュース</h2>
-                <p className="news-feed-source">BBC World News</p>
+                {civOsMode ? (
+                    <>
+                        <h2>⚙️ CivOS Analyzer</h2>
+                        <p className="news-feed-source">ニュースの背景にある数学的概念を解析します</p>
+                    </>
+                ) : (
+                    <>
+                        <h2>📰 今日の国際ニュース</h2>
+                        <p className="news-feed-source">BBC World News</p>
+                    </>
+                )}
             </div>
-            <div className="news-feed-divider"></div>
+            <div className={`news-feed-divider ${civOsMode ? 'news-feed-divider--civos' : ''}`}></div>
 
             {loading && (
                 <div className="news-feed-loading">
@@ -66,15 +82,28 @@ const NewsFeedPanel = ({ onNewsClick }) => {
                                 <span className="news-card-date">
                                     {new Date(item.pubDate).toLocaleDateString('ja-JP')}
                                 </span>
-                                <button
-                                    className="news-analyze-btn"
-                                    onClick={() => handleClick(item, index)}
-                                    disabled={generatingId !== null}
-                                >
-                                    {generatingId === index
-                                        ? '🔄 因果チェーン生成中...'
-                                        : '🔍 歴史的背景を解説'}
-                                </button>
+                                <div className="news-card-actions">
+                                    {!civOsMode && (
+                                        <button
+                                            className="news-analyze-btn"
+                                            onClick={() => handleClick(item, index)}
+                                            disabled={generatingId !== null || civOsGeneratingId !== null}
+                                        >
+                                            {generatingId === index
+                                                ? '🔄 生成中...'
+                                                : '🔍 歴史的背景を解説'}
+                                        </button>
+                                    )}
+                                    <button
+                                        className="news-civos-btn"
+                                        onClick={() => handleCivOsClick(item, index)}
+                                        disabled={generatingId !== null || civOsGeneratingId !== null}
+                                    >
+                                        {civOsGeneratingId === index
+                                            ? '⚙️ 解析中...'
+                                            : '⚙️ CivOS解析'}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

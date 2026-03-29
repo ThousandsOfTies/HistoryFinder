@@ -23,6 +23,7 @@ import NodeDetailPanel from './components/panels/NodeDetailPanel';
 import DictPanel from './components/panels/DictPanel';
 import NewsFeedPanel from './components/panels/NewsFeedPanel';
 import CausalChainPanel from './components/panels/CausalChainPanel';
+import TechNotePanel from './components/panels/TechNotePanel';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
     handleGraphPaneClick,
     handleKeywordClick,
     handleNewsClick,
+    handleCivOsClick,
   } = usePanelManager();
 
   // モード切替時にパネルをリセット
@@ -101,6 +103,14 @@ function App() {
             onPaneClick={handleGraphPaneClick}
           />
         );
+      } else if (panel.type === 'techNote') {
+        return (
+          <TechNotePanel
+            panel={panel}
+            index={index}
+            onClose={handleClosePanel}
+          />
+        );
       }
       return null;
     })();
@@ -146,6 +156,11 @@ function App() {
               <Background color="#ccc" gap={16} />
               <Controls />
             </ReactFlow>
+          </div>
+        ) : mode === 'civos' ? (
+          /* CivOSモード: 数学史 × ニュース解析 */
+          <div className={`news-panel-wrapper ${panels.length > 0 ? 'has-panels' : ''}`}>
+            <NewsFeedPanel onCivOsClick={handleCivOsClick} civOsMode />
           </div>
         ) : (
           /* ニュースモード: BBC + NYT ニュース一覧 */
